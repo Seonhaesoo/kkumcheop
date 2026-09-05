@@ -1,0 +1,10 @@
+{
+  "name": "kkumcheop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "꿈첩 — 상황별 꿈해몽 사전 (사주첩 자매 사이트)",
+  "scripts": {
+    "build": "node tools/build.mjs",
+    "serve": "node server.js"
+  }
+}
