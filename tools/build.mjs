@@ -17,6 +17,7 @@ const SRC = path.join(ROOT, 'src');
 const SITE = 'https://dream.sajucheop.com';
 const SAJU = 'https://sajucheop.com';
 const SAENGIL = 'http://saengil.sajucheop.com';
+const TAROT = 'http://tarot.sajucheop.com';
 
 /* ---------- 엔진 (오늘의 일진) ---------- */
 const w = {};
@@ -110,6 +111,7 @@ ${ld}
     <a class="brand" href="/">${seal('夢', 26)}<span class="brand-name">꿈첩</span></a>
     <a class="sis-chip" href="${SAJU}/" title="사주첩 — 사주풀이">${seal('四', 17)}<span>사주첩</span></a>
     <a class="sis-chip" href="${SAENGIL}/" title="생일첩 — 생년월일로 보는 나이·띠">${seal('生', 17)}<span>생일첩</span></a>
+    <a class="sis-chip" href="${TAROT}/" title="타로첩 — 타로 카드 78장 의미">${seal('占', 17)}<span>타로첩</span></a>
   </div>
   <nav class="nav"><a href="/c/animal/">동물</a><a href="/c/person/">사람</a><a href="/gilmong/">길몽</a><a href="/taemong/">태몽</a></nav>
 </header>
