@@ -22,6 +22,7 @@ import misc15 from './misc-15.mjs';
 import misc16 from './misc-16.mjs';
 import misc17 from './misc-17.mjs';
 import misc18 from './misc-18.mjs';
+import misc19 from './misc-19.mjs';
 
 export const CATS = [
   { slug: 'animal', name: '동물', desc: '뱀·돼지·개·호랑이·용처럼 꿈에 나오는 동물의 뜻. 동물 꿈은 재물과 인연, 본능의 상징으로 가장 자주 묻는 꿈입니다.' },
@@ -38,4 +39,4 @@ export const CATS = [
   { slug: 'disaster', name: '사고·재난', desc: '교통사고·화재·지진·전쟁 꿈. 큰 변화와 정리의 신호로 읽는 꿈입니다.' }
 ];
 
-export const DREAMS = [...animals, ...bodyMoney, ...spiritLovePerson, ...actionNature, ...objectEtc, ...peoplePlaces, ...emotionMisc, ...misc8, ...animals2, ...bodyObject2, ...action2, ...naturePlace2, ...animalsPlaces3, ...objectBody3, ...misc15, ...misc16, ...misc17, ...misc18];
+export const DREAMS = [...animals, ...bodyMoney, ...spiritLovePerson, ...actionNature, ...objectEtc, ...peoplePlaces, ...emotionMisc, ...misc8, ...animals2, ...bodyObject2, ...action2, ...naturePlace2, ...animalsPlaces3, ...objectBody3, ...misc15, ...misc16, ...misc17, ...misc18, ...misc19];
