@@ -5,6 +5,7 @@
  *    taemong?: 문단 | null, related?: [slug...],
  *    variants: [{ slug, title, luck: 'good'|'bad'|'mixed', summary: 한 줄, body: 문단(빈 줄로 구분 가능), advice: 한 줄 }] } */
 import animals from './animals.mjs';
+import bodyMoney from './body-money.mjs';
 
 export const CATS = [
   { slug: 'animal', name: '동물', desc: '뱀·돼지·개·호랑이·용처럼 꿈에 나오는 동물의 뜻. 동물 꿈은 재물과 인연, 본능의 상징으로 가장 자주 묻는 꿈입니다.' },
@@ -21,4 +22,4 @@ export const CATS = [
   { slug: 'disaster', name: '사고·재난', desc: '교통사고·화재·지진·전쟁 꿈. 큰 변화와 정리의 신호로 읽는 꿈입니다.' }
 ];
 
-export const DREAMS = [...animals];
+export const DREAMS = [...animals, ...bodyMoney];
