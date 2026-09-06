@@ -17,7 +17,7 @@ const SRC = path.join(ROOT, 'src');
 const SITE = 'https://dream.sajucheop.com';
 const SAJU = 'https://sajucheop.com';
 const SAENGIL = 'http://saengil.sajucheop.com';
-const TAROT = 'http://tarot.sajucheop.com';
+const TAROT = 'https://tarot.sajucheop.com';
 
 /* ---------- 엔진 (오늘의 일진) ---------- */
 const w = {};
