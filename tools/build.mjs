@@ -106,13 +106,14 @@ ${ld}
 </head>
 <body>
 <div class="app">
+<nav class="family-bar" aria-label="첩 시리즈">
+  <a class="fb-item" href="${SAJU}/" title="사주첩 — 사주풀이"><i aria-hidden="true">四</i>사주첩</a>
+  <a class="fb-item" href="${SAENGIL}/" title="생일첩 — 생년월일로 보는 나이·띠"><i aria-hidden="true">生</i>생일첩</a>
+  <a class="fb-item on" href="/" aria-current="page"><i aria-hidden="true">夢</i>꿈첩</a>
+  <a class="fb-item" href="${TAROT}/" title="타로첩 — 타로 카드 78장 의미"><i aria-hidden="true">占</i>타로첩</a>
+</nav>
 <header class="hdr">
-  <div class="brand-row">
-    <a class="brand" href="/">${seal('夢', 26)}<span class="brand-name">꿈첩</span></a>
-    <a class="sis-chip" href="${SAJU}/" title="사주첩 — 사주풀이">${seal('四', 17)}<span>사주첩</span></a>
-    <a class="sis-chip" href="${SAENGIL}/" title="생일첩 — 생년월일로 보는 나이·띠">${seal('生', 17)}<span>생일첩</span></a>
-    <a class="sis-chip" href="${TAROT}/" title="타로첩 — 타로 카드 78장 의미">${seal('占', 17)}<span>타로첩</span></a>
-  </div>
+  <a class="brand" href="/">${seal('夢', 26)}<span class="brand-name">꿈첩</span></a>
   <nav class="nav"><a href="/c/animal/">동물</a><a href="/c/person/">사람</a><a href="/gilmong/">길몽</a><a href="/taemong/">태몽</a></nav>
 </header>
 ${SEARCH}
