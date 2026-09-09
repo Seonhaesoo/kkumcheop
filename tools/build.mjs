@@ -121,7 +121,7 @@ ${ld}
 ${SEARCH}
 ${o.body}
 <footer>
-  <div class="frow"><span>© 꿈첩 · <a href="${SAJU}/">사주첩</a> 자매 사이트</span><nav><a href="/about/">소개</a><a href="/terms/">이용약관</a><a href="/privacy/">개인정보</a></nav></div>
+  <div class="frow"><span>© 꿈첩 · <a href="${SAJU}/">사주첩</a> · <a href="https://bodyzip.com/">바디집</a> 자매 사이트</span><nav><a href="/about/">소개</a><a href="/terms/">이용약관</a><a href="/privacy/">개인정보</a></nav></div>
   <p class="fnote">꿈 해몽은 전통 해몽서와 상징 심리학을 바탕으로 한 참고용 콘텐츠입니다. 꿈은 개인의 경험과 감정에 따라 달리 읽히며, 중요한 결정의 근거로 삼지 마세요.</p>
 </footer>
 </div>
@@ -286,7 +286,7 @@ function taemongPage() {
 <section>
 ${list.map((s) => `<h2><a href="${sUrl(s)}">${esc(s.name)} 태몽</a></h2>${paras(s.taemong)}`).join('\n')}
 </section>
-<p class="callout">태몽으로 아들·딸을 가리는 것은 속설이며 과학적 근거는 없습니다. 아이가 태어나면 <a href="${SAENGIL}/">생일첩</a>에서 생년월일로 띠·별자리·일주를, <a href="${SAJU}/">사주첩</a>에서 사주를 볼 수 있어요.</p>
+<p class="callout">태몽으로 아들·딸을 가리는 것은 속설이며 과학적 근거는 없습니다. 출산예정일과 임신 주수는 <a href="https://bodyzip.com/due-date/">바디집</a>에서 계산할 수 있고, 아이가 태어나면 <a href="${SAENGIL}/">생일첩</a>에서 생년월일로 띠·별자리·일주를, <a href="${SAJU}/">사주첩</a>에서 사주를 볼 수 있어요.</p>
 `;
   write(url, shell({ url, title: `태몽 해몽 — 뱀·돼지·용·물고기 등 태몽 ${list.length}가지의 뜻`, desc: `태몽으로 보는 꿈 ${list.length}가지. ${list.slice(0, 8).map((s) => s.name).join('·')} 태몽의 전통적 의미.`, body, jsonld: crumbs([{ name: '꿈첩', url: '/' }, { name: '태몽', url }]) }));
 }
