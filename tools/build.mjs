@@ -90,6 +90,7 @@ function shell(o) {
 ${GA}
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="max-image-preview:large">
+<link rel="alternate" type="application/rss+xml" title="새 글" href="/rss.xml">
 <title>${esc(o.title)}</title>
 <meta name="description" content="${esc(o.desc)}">
 <link rel="canonical" href="${SITE}${o.url}">
@@ -370,3 +371,6 @@ CATS.forEach((c) => { if (DREAMS.some((s) => s.cat === c.slug)) catPage(c); });
 luckPage('good'); luckPage('bad'); taemongPage();
 homePage(); staticPages(); indexJson(); sitemap();
 console.log(`꿈첩 빌드 완료: 상징 ${DREAMS.length}, 상황 ${DREAMS.reduce((a, s) => a + s.variants.length, 0)}, 페이지 ${urls.length} · 오늘 ${tg.kor}일`);
+
+/* RSS 피드 — 네이버 서치어드바이저에 한 번 등록하면 새 글을 알아서 가져간다 (tools/feeds.mjs) */
+await import('./feeds.mjs');
