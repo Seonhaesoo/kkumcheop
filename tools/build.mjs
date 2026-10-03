@@ -29,6 +29,8 @@ const t = new Date(Date.now() + 9 * 3600e3);
 const today = { y: t.getUTCFullYear(), m: t.getUTCMonth() + 1, d: t.getUTCDate() };
 const pad = (n) => String(n).padStart(2, '0');
 const BUILD_ISO = `${today.y}-${pad(today.m)}-${pad(today.d)}`;
+const CONTENT_DATE = '2026-10-03';   /* 해몽 글을 마지막으로 고친 날 — 사이트맵 lastmod·Article 날짜. 글을 고칠 때만 바꾼다(매 빌드 날짜로 두면 구글이 lastmod 를 믿지 않는다) */
+const FIRST_PUBLISHED = '2026-09-03';   /* 꿈첩을 처음 올린 무렵 */
 const tp = M.dayPillarOf(today.y, today.m, today.d);
 const tg = M.ganjiName(tp.stem, tp.branch);
 const tel = M.STEMS[tp.stem].el;
@@ -118,7 +120,7 @@ ${ld}
 </nav>
 <header class="hdr">
   <a class="brand" href="/">${seal('夢', 26)}<span class="brand-name">꿈첩</span></a>
-  <nav class="nav"><a href="/c/animal/">동물</a><a href="/c/person/">사람</a><a href="/gilmong/">길몽</a><a href="/taemong/">태몽</a></nav>
+  <nav class="nav"><a href="/d/">전체 목록</a><a href="/c/animal/">동물</a><a href="/c/person/">사람</a><a href="/gilmong/">길몽</a><a href="/taemong/">태몽</a></nav>
 </header>
 ${SEARCH}
 ${o.body}
@@ -133,7 +135,7 @@ ${o.body}
 `;
 }
 const crumbs = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, item: SITE + it.url })) });
-const article = (title, desc, url) => ({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description: desc, datePublished: BUILD_ISO, dateModified: BUILD_ISO, inLanguage: 'ko', author: { '@type': 'Organization', name: '꿈첩' }, publisher: { '@type': 'Organization', name: '꿈첩' }, mainEntityOfPage: SITE + url });
+const article = (title, desc, url) => ({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description: desc, datePublished: FIRST_PUBLISHED, dateModified: CONTENT_DATE, inLanguage: 'ko', author: { '@type': 'Organization', name: '꿈첩' }, publisher: { '@type': 'Organization', name: '꿈첩' }, mainEntityOfPage: SITE + url });
 
 const urls = [];
 function write(url, html) {
@@ -302,6 +304,7 @@ function homePage() {
 <section>
 <h2>많이 찾는 꿈</h2>
 <div class="grid">${hot.map((s) => `<a href="${sUrl(s)}"><b>${esc(s.name)}</b><small>${s.variants.length}가지</small></a>`).join('')}</div>
+<p class="more"><a href="/d/">꿈 ${DREAMS.length}가지·상황 ${total}가지 전체 목록 보기 →</a></p>
 </section>
 <section>
 <h2>분류로 찾기</h2>
@@ -322,6 +325,24 @@ ${todayBox()}
 </section>
 `;
   write('/', shell({ url: '/', title: '꿈첩 — 꿈해몽 사전, 상황별 길몽·흉몽·태몽 풀이', desc: `뱀꿈·이빨 빠지는 꿈·똥꿈·죽는 꿈… 꿈에 나온 것을 검색하면 상황별 길흉과 전통 해몽, 심리적 의미, 태몽 풀이까지. ${DREAMS.length}가지 상징 ${total}가지 상황.`, body, jsonld: { '@context': 'https://schema.org', '@type': 'WebSite', name: '꿈첩', url: SITE + '/', potentialAction: { '@type': 'SearchAction', target: SITE + '/?q={search_term_string}', 'query-input': 'required name=search_term_string' } } }));
+}
+
+/* ---------- /d/ 전체 목록 — 모든 상징과 상황으로 가는 한 장 (구글이 한 번 읽으면 1,150여 주소를 모두 알게) ---------- */
+function dictPage() {
+  const url = '/d/';
+  const total = DREAMS.reduce((a, s) => a + s.variants.length, 0);
+  const groups = CATS.map((c) => ({ c, list: DREAMS.filter((s) => s.cat === c.slug).sort((a, b) => a.name.localeCompare(b.name, 'ko')) })).filter((g) => g.list.length);
+  const body = `
+<div class="overline">꿈첩 · 전체 목록</div>
+<h1>꿈해몽 사전 전체 목록</h1>
+<p class="lead">꿈첩에 있는 꿈 ${DREAMS.length}가지와 상황 ${total}가지를 분류별로 모두 모았습니다. 꿈 이름을 누르면 상황별 요약과 태몽 풀이가, 상황을 누르면 그 장면의 길흉과 해몽이 나옵니다.</p>
+<style>.dict h2{margin-top:26px}.dict .sym{margin:12px 0 0}.dict .sym b a{font-size:16px}.dict .sym small{display:block;margin-top:3px;line-height:1.9;color:var(--muted)}.dict .sym small a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line)}</style>
+<div class="dict">
+${groups.map((g) => `<section><h2><a href="${cUrl(g.c)}">${esc(g.c.name)} 꿈</a> <small>${g.list.length}가지</small></h2>
+${g.list.map((s) => `<div class="sym"><b><a href="${sUrl(s)}">${esc(q(s))}</a></b><small>${s.variants.map((v) => `<a href="${vUrl(s, v)}">${esc(v.title)}</a>`).join(' · ')}</small></div>`).join('\n')}</section>`).join('\n')}
+</div>
+`;
+  write(url, shell({ url, title: `꿈해몽 사전 전체 목록 — 꿈 ${DREAMS.length}가지·상황 ${total}가지`, desc: `뱀꿈·돼지꿈·이빨 빠지는 꿈부터 ${DREAMS.length}가지 꿈과 ${total}가지 상황을 분류별로 모두 모은 꿈해몽 사전 목록입니다.`, body, jsonld: crumbs([{ name: '꿈첩', url: '/' }, { name: '전체 목록', url }]) }));
 }
 
 function staticPages() {
@@ -356,7 +377,7 @@ function indexJson() {
   fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify(items));
 }
 function sitemap() {
-  fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${BUILD_ISO}</lastmod></url>`).join('\n')}\n</urlset>\n`);
+  fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${u === '/' ? BUILD_ISO : CONTENT_DATE}</lastmod></url>`).join('\n')}\n</urlset>\n`);
   fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 }
 
@@ -369,7 +390,7 @@ fs.writeFileSync(path.join(OUT, '.nojekyll'), '');
 for (const s of DREAMS) { symbolPage(s); s.variants.forEach((v, i) => variantPage(s, v, i)); }
 CATS.forEach((c) => { if (DREAMS.some((s) => s.cat === c.slug)) catPage(c); });
 luckPage('good'); luckPage('bad'); taemongPage();
-homePage(); staticPages(); indexJson(); sitemap();
+homePage(); dictPage(); staticPages(); indexJson(); sitemap();
 console.log(`꿈첩 빌드 완료: 상징 ${DREAMS.length}, 상황 ${DREAMS.reduce((a, s) => a + s.variants.length, 0)}, 페이지 ${urls.length} · 오늘 ${tg.kor}일`);
 
 /* RSS 피드 — 네이버 서치어드바이저에 한 번 등록하면 새 글을 알아서 가져간다 (tools/feeds.mjs) */
