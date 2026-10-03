@@ -35,7 +35,7 @@ const tel = M.STEMS[tp.stem].el;
 const WD = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
 const wd = WD[new Date(Date.UTC(today.y, today.m - 1, today.d)).getUTCDay()];
 const TODAY_LINE = {
-  '목': '목(木)의 기운이 도는 날입니다. 자라고 뻗어나가는 상징이 강조되니, 꿈속의 시작·성장·새 인연에 관한 장면을 더 크게 읽어도 좋아요.',
+  '목': '목(木)의 기운이 도는 날입니다. 자라고 뻗어나가는 상징이 강조되니, 꿈속의 시작·성장·새 인연에 관한 장면을 더 크게 읽어도 좋습니다.',
   '화': '화(火)의 기운이 도는 날입니다. 드러나고 퍼지는 상징이 강조되니, 꿈속의 감정·명예·소문·열정에 관한 장면이 더 또렷하게 읽힙니다.',
   '토': '토(土)의 기운이 도는 날입니다. 쌓고 지키는 상징이 강조되니, 재물·집·가족·안정에 관한 꿈의 무게가 평소보다 커집니다.',
   '금': '금(金)의 기운이 도는 날입니다. 자르고 정리하는 상징이 강조되니, 이별·결단·마무리·정리에 관한 장면을 눈여겨보세요.',
@@ -79,7 +79,7 @@ const GA = `<script async src="https://www.googletagmanager.com/gtag/js?id=G-JCD
 <script>if(location.hostname.indexOf('localhost')<0&&location.hostname.indexOf('127.0.0.1')<0&&location.protocol!=='file:'){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JCDJSNZX4J');}</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924140539322407" crossorigin="anonymous"></script>`;
 const seal = (ch, size) => `<svg width="${size}" height="${size}" viewBox="0 0 30 30" aria-hidden="true"><rect x="1.5" y="1.5" width="27" height="27" rx="6" fill="#B8382D"/><text x="15" y="20.5" text-anchor="middle" font-family="'Noto Serif KR',serif" font-size="15" font-weight="600" fill="#F6F1E8">${ch}</text></svg>`;
-const SEARCH = `<form class="search" id="search" role="search" autocomplete="off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="#9A8F7E" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="#9A8F7E" stroke-width="1.8" stroke-linecap="round"/></svg><input type="search" name="q" placeholder="꿈에 나온 것을 검색 — 뱀, 이빨, 돈, 죽음…" aria-label="꿈 검색"><div class="res" hidden></div></form>`;
+const SEARCH = `<form class="search" id="search" role="search" autocomplete="off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="#9A8F7E" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="#9A8F7E" stroke-width="1.8" stroke-linecap="round"/></svg><input type="search" name="q" placeholder="꿈에 나온 것을 검색 (뱀, 이빨, 돈, 죽음…)" aria-label="꿈 검색"><div class="res" hidden></div></form>`;
 
 function shell(o) {
   const ld = o.jsonld ? `<script type="application/ld+json">${JSON.stringify(o.jsonld)}</script>` : '';
@@ -284,11 +284,11 @@ function taemongPage() {
   const body = `
 <div class="overline">꿈첩 · 모음</div>
 <h1>태몽 해몽 — 태몽으로 보는 꿈 ${list.length}가지</h1>
-<p class="lead">태몽은 임신 전후에 본인이나 가족이 꾸는, 아이의 탄생을 알리는 꿈입니다. 동물·과일·자연물이 크고 선명하게 나오며 꿈에서 깬 뒤에도 또렷이 기억나는 것이 특징이에요. 상징별로 전통적으로 어떤 아이를 뜻한다고 보는지 정리했습니다.</p>
+<p class="lead">태몽은 임신 전후에 본인이나 가족이 꾸는, 아이의 탄생을 알리는 꿈입니다. 동물·과일·자연물이 크고 선명하게 나오며 꿈에서 깬 뒤에도 또렷이 기억나는 것이 특징입니다. 상징별로 전통적으로 어떤 아이를 뜻한다고 보는지 정리했습니다.</p>
 <section>
 ${list.map((s) => `<h2><a href="${sUrl(s)}">${esc(s.name)} 태몽</a></h2>${paras(s.taemong)}`).join('\n')}
 </section>
-<p class="callout">태몽으로 아들·딸을 가리는 것은 속설이며 과학적 근거는 없습니다. 출산예정일과 임신 주수는 <a href="https://bodyzip.com/due-date/">바디집</a>에서 계산할 수 있고, 아이가 태어나면 <a href="${SAENGIL}/">생일첩</a>에서 생년월일로 띠·별자리·일주를, <a href="${SAJU}/">사주첩</a>에서 사주를 볼 수 있어요.</p>
+<p class="callout">태몽으로 아들·딸을 가리는 것은 속설이며 과학적 근거는 없습니다. 출산예정일과 임신 주수는 <a href="https://bodyzip.com/due-date/">바디집</a>에서 계산할 수 있고, 아이가 태어나면 <a href="${SAENGIL}/">생일첩</a>에서 생년월일로 띠·별자리·일주를, <a href="${SAJU}/">사주첩</a>에서 사주를 볼 수 있습니다.</p>
 `;
   write(url, shell({ url, title: `태몽 해몽 — 뱀·돼지·용·물고기 등 태몽 ${list.length}가지의 뜻`, desc: `태몽으로 보는 꿈 ${list.length}가지. ${list.slice(0, 8).map((s) => s.name).join('·')} 태몽의 전통적 의미.`, body, jsonld: crumbs([{ name: '꿈첩', url: '/' }, { name: '태몽', url }]) }));
 }
@@ -318,7 +318,7 @@ ${todayBox()}
 <section>
 <h2>꿈첩이 꿈을 읽는 방식</h2>
 <p>같은 뱀이라도 물리는 꿈과 잡는 꿈은 뜻이 다릅니다. 그래서 꿈첩은 상징 하나를 여러 <strong>상황</strong>으로 나누고, 상황마다 전통 해몽의 길흉과 심리적 의미를 함께 적습니다. 전통 해몽은 조선의 해몽서와 구전 속설을, 심리 해석은 꿈을 무의식의 언어로 보는 관점을 따릅니다.</p>
-<p>꿈은 예언이 아니라 지금 내 마음이 붙들고 있는 것을 보여주는 거울에 가깝습니다. 흉몽이라고 겁낼 필요는 없고, 길몽이라고 안심만 할 일도 아니에요. 꿈이 가리키는 관계와 상황을 현실에서 한 번 살펴보는 계기로 삼으면 충분합니다.</p>
+<p>꿈은 예언이 아니라 지금 내 마음이 붙들고 있는 것을 보여주는 거울에 가깝습니다. 흉몽이라고 겁낼 필요는 없고, 길몽이라고 안심만 할 일도 아닙니다. 꿈이 가리키는 관계와 상황을 현실에서 한 번 살펴보는 계기로 삼으면 충분합니다.</p>
 </section>
 `;
   write('/', shell({ url: '/', title: '꿈첩 — 꿈해몽 사전, 상황별 길몽·흉몽·태몽 풀이', desc: `뱀꿈·이빨 빠지는 꿈·똥꿈·죽는 꿈… 꿈에 나온 것을 검색하면 상황별 길흉과 전통 해몽, 심리적 의미, 태몽 풀이까지. ${DREAMS.length}가지 상징 ${total}가지 상황.`, body, jsonld: { '@context': 'https://schema.org', '@type': 'WebSite', name: '꿈첩', url: SITE + '/', potentialAction: { '@type': 'SearchAction', target: SITE + '/?q={search_term_string}', 'query-input': 'required name=search_term_string' } } }));

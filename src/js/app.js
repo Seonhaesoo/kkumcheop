@@ -26,7 +26,7 @@
     hits = hits.slice(0, 12);
     box.innerHTML = hits.length
       ? hits.map(function (h) { return '<a href="' + h.it.u + '">' + esc(h.it.t) + '<small>' + (h.it.l ? LUCK[h.it.l] : '전체 풀이') + '</small></a>'; }).join('')
-      : '<div class="none">아직 없는 꿈이에요. 비슷한 말로 다시 찾아보세요 — 예: 뱀, 이빨, 돈, 죽음</div>';
+      : '<div class="none">아직 없는 꿈이에요. 비슷한 말로 다시 찾아보세요. 예: 뱀, 이빨, 돈, 죽음</div>';
     box.hidden = false;
   }
   input.addEventListener('focus', load);
