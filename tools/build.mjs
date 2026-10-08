@@ -10,6 +10,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import { DREAMS, CATS } from '../data/dreams/index.mjs';
+import { coupangBox, hasCoupang } from '../data/coupang.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'dist');
@@ -177,7 +178,7 @@ ${s.psych ? `<h3>심리적으로 읽으면</h3>${paras(s.psych)}` : ''}
 <p class="callout">${esc(s.luckNote)}</p>
 </section>
 
-${s.taemong ? `<section><h2>${esc(s.name)} 태몽</h2>${paras(s.taemong)}<p class="note">태몽은 아기의 생년월일이 정해진 뒤 <a href="${SAENGIL}/">생일첩</a>에서 띠·별자리·일주와 함께 보면 더 재미있습니다.</p></section>` : ''}
+${s.taemong ? `<section><h2>${esc(s.name)} 태몽</h2>${paras(s.taemong)}<p class="note">태몽은 아기의 생년월일이 정해진 뒤 <a href="${SAENGIL}/">생일첩</a>에서 띠·별자리·일주와 함께 보면 더 재미있습니다.</p>${coupangBox()}</section>` : ''}
 
 <section>
 <h2>오늘 꾼 꿈이라면</h2>
@@ -291,6 +292,7 @@ function taemongPage() {
 ${list.map((s) => `<h2><a href="${sUrl(s)}">${esc(s.name)} 태몽</a></h2>${paras(s.taemong)}`).join('\n')}
 </section>
 <p class="callout">태몽으로 아들·딸을 가리는 것은 속설이며 과학적 근거는 없습니다. 출산예정일과 임신 주수는 <a href="https://bodyzip.com/due-date/">바디집</a>에서 계산할 수 있고, 아이가 태어나면 <a href="${SAENGIL}/">생일첩</a>에서 생년월일로 띠·별자리·일주를, <a href="${SAJU}/">사주첩</a>에서 사주를 볼 수 있습니다.</p>
+${coupangBox()}
 `;
   write(url, shell({ url, title: `태몽 해몽 — 뱀·돼지·용·물고기 등 태몽 ${list.length}가지의 뜻`, desc: `태몽으로 보는 꿈 ${list.length}가지. ${list.slice(0, 8).map((s) => s.name).join('·')} 태몽의 전통적 의미.`, body, jsonld: crumbs([{ name: '꿈첩', url: '/' }, { name: '태몽', url }]) }));
 }
@@ -361,7 +363,7 @@ function staticPages() {
   doc('/privacy/', '개인정보처리방침', '꿈첩 개인정보처리방침.', `
 <p>꿈첩은 방문자의 개인정보를 소중히 다룹니다.</p>
 <h3>1. 수집하는 정보</h3><p>사이트는 회원가입을 받지 않으며 이름·연락처 등 개인정보를 직접 수집하지 않습니다. 검색어는 브라우저 안에서만 처리됩니다.</p>
-<h3>2. 쿠키와 제3자 서비스</h3><p>사이트는 방문 통계를 위해 Google Analytics를, 광고 게재를 위해 Google AdSense를 사용합니다. Google은 쿠키를 이용해 방문 기록과 관심사에 맞춘 광고를 보여줄 수 있습니다. 맞춤 광고는 <a href="https://www.google.com/settings/ads" rel="noopener">Google 광고 설정</a>에서, 쿠키 사용은 브라우저 설정에서 거부할 수 있습니다. 자세한 내용은 <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">Google 정책 페이지</a>를 참고하세요.</p>
+<h3>2. 쿠키와 제3자 서비스</h3><p>사이트는 방문 통계를 위해 Google Analytics를, 광고 게재를 위해 Google AdSense를 사용합니다.${hasCoupang() ? ' 태몽 풀이의 쿠팡 링크(쿠팡 파트너스)를 누르면 쿠팡으로 이동하며, 그 뒤 구매가 생기면 꿈첩이 일정액의 수수료를 받을 수 있습니다. 이 과정의 쿠키는 쿠팡이 관리합니다.' : ''} Google은 쿠키를 이용해 방문 기록과 관심사에 맞춘 광고를 보여줄 수 있습니다. 맞춤 광고는 <a href="https://www.google.com/settings/ads" rel="noopener">Google 광고 설정</a>에서, 쿠키 사용은 브라우저 설정에서 거부할 수 있습니다. 자세한 내용은 <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">Google 정책 페이지</a>를 참고하세요.</p>
 <h3>3. 정보의 보관과 파기</h3><p>사이트가 직접 보관하는 개인정보는 없습니다.</p>
 <h3>4. 문의</h3><p>개인정보 관련 문의는 <a href="${SAJU}/">사주첩</a>의 연락처로 보내 주세요.</p>
 <p class="note">시행일: ${BUILD_ISO}</p>`);
