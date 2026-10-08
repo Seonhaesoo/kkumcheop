@@ -85,6 +85,10 @@ const GA = `<script async src="https://www.googletagmanager.com/gtag/js?id=G-JCD
 const seal = (ch, size) => `<svg width="${size}" height="${size}" viewBox="0 0 30 30" aria-hidden="true"><rect x="1.5" y="1.5" width="27" height="27" rx="6" fill="#B8382D"/><text x="15" y="20.5" text-anchor="middle" font-family="'Noto Serif KR',serif" font-size="15" font-weight="600" fill="#F6F1E8">${ch}</text></svg>`;
 const SEARCH = `<form class="search" id="search" role="search" autocomplete="off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="#9A8F7E" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="#9A8F7E" stroke-width="1.8" stroke-linecap="round"/></svg><input type="search" name="q" placeholder="꿈에 나온 것을 검색 (뱀, 이빨, 돈, 죽음…)" aria-label="꿈 검색"><div class="res" hidden></div></form>`;
 
+/* 2026-10-08 구글 스팸 업데이트 대응 — 상황 페이지(/d/상징/상황/)는 구글에만 검색 제외(googlebot noindex, follow), 네이버·빙은 그대로.
+ * 구글 노출이 있던 상황 페이지만 남긴다(서치콘솔 9/1~10/8). 상징·분류·모음 페이지는 모두 남김. 구글용 sitemap.xml 에서 빼고 전체는 sitemap-all.xml */
+const G_KEEP = new Set(['/d/rain/gentle/', '/d/rain/soaked/', '/d/rain/umbrella/', '/d/rain/storm/']);
+const gNo = (url) => /^\/d\/[^/]+\/[^/]+\/$/.test(url || '') && !G_KEEP.has(url);
 function shell(o) {
   const ld = o.jsonld ? `<script type="application/ld+json">${JSON.stringify(o.jsonld)}</script>` : '';
   return `<!doctype html>
@@ -93,7 +97,7 @@ function shell(o) {
 <meta charset="utf-8">
 ${GA}
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="max-image-preview:large">
+<meta name="robots" content="max-image-preview:large">${gNo(o.url) ? '\n<meta name="googlebot" content="noindex, follow">' : ''}
 <link rel="alternate" type="application/rss+xml" title="새 글" href="/rss.xml">
 <title>${esc(o.title)}</title>
 <meta name="description" content="${esc(o.desc)}">
@@ -378,7 +382,9 @@ function indexJson() {
   fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify(items));
 }
 function sitemap() {
-  fs.writeFileSync(path.join(OUT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${u === '/' ? BUILD_ISO : CONTENT_DATE}</lastmod></url>`).join('\n')}\n</urlset>\n`);
+  const sm = (list) => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${list.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${u === '/' ? BUILD_ISO : CONTENT_DATE}</lastmod></url>`).join('\n')}\n</urlset>\n`;
+  fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sm(urls.filter((u) => !gNo(u))));   /* 구글용(robots.txt) */
+  fs.writeFileSync(path.join(OUT, 'sitemap-all.xml'), sm(urls));   /* 전체 — 네이버·빙 제출용 */
   fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
 }
 
