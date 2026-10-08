@@ -106,11 +106,16 @@ footer { margin-top: 36px; padding-top: 14px; border-top: 1px solid var(--line);
 .frow a { color: var(--muted); text-decoration: none; }
 .fnote { margin-top: 8px; font-size: 12px; color: var(--faint); line-height: 1.6; }
 
-/* 쿠팡 파트너스 상자 (data/coupang.mjs) — 태몽 풀이 끝, 작게 */
-.cp-box { margin: 18px 0 4px; padding: 12px 14px; border: 1px dashed var(--line, #ddd); border-radius: 10px; font-size: 13px; }
-.cp-box .cp-h { margin: 0 0 6px; font-size: 12.5px; color: var(--muted, #777); }
-.cp-box ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.cp-box li { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; }
-.cp-box a { font-weight: 500; }
-.cp-box small { color: var(--muted, #777); font-size: 12px; }
-.cp-box .cp-note { margin: 8px 0 0; font-size: 11.5px; color: var(--muted, #777); line-height: 1.6; }
+/* 쿠팡 파트너스 상자 — 흰 카드, 물건 줄마다 버튼 */
+.cp-box { margin: 26px 0 4px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--paper-deep); }
+.cp-box .cp-h { margin: 0 0 10px; font-size: 15px; font-weight: 700; color: var(--ink); }
+.cp-list { display: grid; gap: 8px; }
+.cp-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: var(--card, #fff); border: 1px solid var(--line); border-radius: 10px; color: var(--ink); text-decoration: none; }
+.cp-item:hover { border-color: var(--seal); }
+.cp-img { flex: none; width: 80px; height: 80px; border-radius: 8px; object-fit: contain; background: #fff; }
+.cp-t { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.cp-t b { font-size: 15px; font-weight: 700; }
+.cp-t small { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.cp-go { flex: none; padding: 7px 12px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 13px; font-weight: 700; white-space: nowrap; }
+.cp-box .cp-note { margin: 10px 0 0; font-size: 11.5px; color: var(--faint, #8a8a8a); line-height: 1.6; }
+@media (max-width: 480px) { .cp-item { flex-wrap: wrap; gap: 8px 12px; padding: 12px; } .cp-img { width: 64px; height: 64px; } .cp-t { flex: 1 1 calc(100% - 76px); } .cp-go { margin-left: auto; padding: 6px 12px; font-size: 12.5px; } .cp-img ~ .cp-go { margin-left: 76px; margin-right: auto; } }
