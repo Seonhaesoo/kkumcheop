@@ -44,6 +44,7 @@ const TODAY_LINE = {
   '금': '금(金)의 기운이 도는 날입니다. 자르고 정리하는 상징이 강조되니, 이별·결단·마무리·정리에 관한 장면을 눈여겨보세요.',
   '수': '수(水)의 기운이 도는 날입니다. 흐르고 스며드는 상징이 강조되니, 물·지혜·숨은 감정·소통에 관한 장면이 더 깊게 읽힙니다.'
 };
+const homeToday = () => `<section class="today-a"><span class="ta-wm" aria-hidden="true">${tg.han}</span><p class="hero-over">오늘 꾼 꿈이라면</p><p class="ta-date">${today.m}월 ${today.d}일 ${wd} · ${tg.kor}(${tg.han})일</p><p class="ta-line">${TODAY_LINE[tel]}</p><a class="ta-more" href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이(사주첩) →</a></section>`;
 const todayBox = () => `<div class="today">오늘 <b>${today.y}년 ${today.m}월 ${today.d}일 ${wd}</b>은 <b>${tg.kor}(${tg.han})일</b>, ${TODAY_LINE[tel]} <a href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이(사주첩)</a></div>`;
 
 /* ---------- 유틸 ---------- */
@@ -301,8 +302,9 @@ function homePage() {
   const hot = DREAMS.filter((s) => s.hot).concat(DREAMS.filter((s) => !s.hot)).slice(0, 24);
   const total = DREAMS.reduce((a, s) => a + s.variants.length, 0);
   const body = `
-<h1>꿈첩 <span style="font-size:15px;color:var(--faint);font-weight:400">夢帖</span></h1>
-<p class="lead">간밤에 본 것을 검색하면 상황별로 <strong>길몽인지 흉몽인지</strong>, 전통 해몽과 심리적 의미, 태몽 풀이까지 한 장에 담아 드립니다. 지금 ${DREAMS.length}가지 상징, ${total}가지 상황이 있고 계속 늘어납니다.</p>
+<p class="hero-over">상황별 꿈해몽 사전 · 夢帖</p>
+<h1 class="hero-h1">간밤의 꿈을<br>상황으로 읽는 꿈해몽</h1>
+<p class="lead">뱀에게 물린 꿈과 뱀을 잡은 꿈은 뜻이 다릅니다. 꿈에 나온 것을 검색하면 상황별로 <strong>길몽인지 흉몽인지</strong>, 전통 해몽과 심리적 의미, 태몽 풀이까지 한 장에 담아 드립니다. 지금 ${DREAMS.length}가지 상징, ${total}가지 상황이 있고 계속 늘어납니다.</p>
 <section>
 <h2>많이 찾는 꿈</h2>
 <div class="grid">${hot.map((s) => `<a href="${sUrl(s)}"><b>${esc(s.name)}</b><small>${s.variants.length}가지</small></a>`).join('')}</div>
@@ -316,10 +318,7 @@ function homePage() {
 <h2>모음</h2>
 <div class="grid g3"><a href="/gilmong/"><b>길몽 모음</b><small>좋은 꿈</small></a><a href="/hyungmong/"><b>흉몽 모음</b><small>조심할 꿈</small></a><a href="/taemong/"><b>태몽</b><small>아기 꿈</small></a></div>
 </section>
-<section>
-<h2>오늘 꾼 꿈이라면</h2>
-${todayBox()}
-</section>
+${homeToday()}
 <section>
 <h2>꿈첩이 꿈을 읽는 방식</h2>
 <p>같은 뱀이라도 물리는 꿈과 잡는 꿈은 뜻이 다릅니다. 그래서 꿈첩은 상징 하나를 여러 <strong>상황</strong>으로 나누고, 상황마다 전통 해몽의 길흉과 심리적 의미를 함께 적습니다. 전통 해몽은 조선의 해몽서와 구전 속설을, 심리 해석은 꿈을 무의식의 언어로 보는 관점을 따릅니다.</p>
