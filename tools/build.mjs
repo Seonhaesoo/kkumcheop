@@ -130,8 +130,10 @@ ${ld}
 </header>
 ${SEARCH}
 ${o.body}
-<footer>
-  <div class="frow"><span>© 꿈첩 · <a href="${SAJU}/">사주첩</a> · <a href="https://bodyzip.com/">바디집</a> 자매 사이트</span><nav><a href="/about/">소개</a><a href="/terms/">이용약관</a><a href="/privacy/">개인정보</a></nav></div>
+<footer class="foot2">
+  <p class="flabel">꿈 찾아보기</p>
+  <nav class="fgrid" aria-label="꿈 찾아보기"><a href="/d/">전체 목록</a><a href="/c/animal/">동물 꿈</a><a href="/c/person/">사람 꿈</a><a href="/gilmong/">길몽 모음</a><a href="/hyungmong/">흉몽 모음</a><a href="/taemong/">태몽</a></nav>
+  <div class="frow2"><nav><a href="/about/">소개</a><a href="/terms/">이용약관</a><a href="/privacy/">개인정보</a></nav><span>© 꿈첩 · <a href="${SAJU}/">사주첩</a> · <a href="https://bodyzip.com/">바디집</a> 자매 사이트</span></div>
   <p class="fnote">꿈 해몽은 전통 해몽서와 상징 심리학을 바탕으로 한 참고용 콘텐츠입니다. 꿈은 개인의 경험과 감정에 따라 달리 읽히며, 중요한 결정의 근거로 삼지 마세요.</p>
 </footer>
 </div>
@@ -323,10 +325,14 @@ function homePage() {
 <div class="grid g3"><a href="/gilmong/"><b>길몽 모음</b><small>좋은 꿈</small></a><a href="/hyungmong/"><b>흉몽 모음</b><small>조심할 꿈</small></a><a href="/taemong/"><b>태몽</b><small>아기 꿈</small></a></div>
 </section>
 ${homeToday()}
-<section>
+<section class="intro">
+<p class="intro-label">꿈첩 이야기</p>
 <h2>꿈첩이 꿈을 읽는 방식</h2>
-<p>같은 뱀이라도 물리는 꿈과 잡는 꿈은 뜻이 다릅니다. 그래서 꿈첩은 상징 하나를 여러 <strong>상황</strong>으로 나누고, 상황마다 전통 해몽의 길흉과 심리적 의미를 함께 적습니다. 전통 해몽은 조선의 해몽서와 구전 속설을, 심리 해석은 꿈을 무의식의 언어로 보는 관점을 따릅니다.</p>
-<p>꿈은 예언이 아니라 지금 내 마음이 붙들고 있는 것을 보여주는 거울에 가깝습니다. 흉몽이라고 겁낼 필요는 없고, 길몽이라고 안심만 할 일도 아닙니다. 꿈이 가리키는 관계와 상황을 현실에서 한 번 살펴보는 계기로 삼으면 충분합니다.</p>
+<ol class="steps">
+<li><i aria-hidden="true">一</i><div><b>상징을 상황으로 나눕니다</b><p>같은 뱀이라도 물리는 꿈과 잡는 꿈은 뜻이 다릅니다. 그래서 꿈첩은 상징 하나를 여러 <strong>상황</strong>으로 나누어 풉니다.</p></div></li>
+<li><i aria-hidden="true">二</i><div><b>전통 해몽과 심리 해석을 함께 적습니다</b><p>상황마다 전통 해몽의 길흉과 심리적 의미를 나란히 적습니다. 전통 해몽은 조선의 해몽서와 구전 속설을, 심리 해석은 꿈을 무의식의 언어로 보는 관점을 따릅니다.</p></div></li>
+<li><i aria-hidden="true">三</i><div><b>꿈은 마음을 비추는 거울로 읽습니다</b><p>꿈은 앞날을 맞히는 예언보다 지금 내 마음이 붙들고 있는 것을 보여 주는 거울에 가깝습니다. 흉몽이라고 겁낼 필요는 없고, 길몽이라고 안심만 할 일도 아닙니다. 꿈이 가리키는 관계와 상황을 현실에서 한 번 살펴보는 계기로 삼으면 충분합니다.</p></div></li>
+</ol>
 </section>
 `;
   write('/', shell({ url: '/', title: '꿈첩 — 꿈해몽 사전, 상황별 길몽·흉몽·태몽 풀이', desc: `뱀꿈·이빨 빠지는 꿈·똥꿈·죽는 꿈… 꿈에 나온 것을 검색하면 상황별 길흉과 전통 해몽, 심리적 의미, 태몽 풀이까지. ${DREAMS.length}가지 상징 ${total}가지 상황.`, body, jsonld: { '@context': 'https://schema.org', '@type': 'WebSite', name: '꿈첩', url: SITE + '/', potentialAction: { '@type': 'SearchAction', target: SITE + '/?q={search_term_string}', 'query-input': 'required name=search_term_string' } } }));
