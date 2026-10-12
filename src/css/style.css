@@ -150,3 +150,10 @@ footer.foot2 { margin: 40px -18px -40px; padding: 26px 18px 36px; border-top: 0;
 .frow2 a { color: var(--muted); text-decoration: none; }
 .frow2 a:hover { color: var(--seal); }
 footer.foot2 .fnote { margin-top: 12px; }
+
+/* 보강 풀이 — 꿈속 장면별 풀이(2026-10-13) */
+.scenes { list-style: none; margin: 8px 0 0; padding: 0; border-top: 1px solid var(--line-soft); }
+.scenes li { display: grid; gap: 3px; padding: 12px 0; border-bottom: 1px solid var(--line-soft); }
+.scenes b { font-size: 15px; color: var(--ink); }
+.scenes b::before { content: ''; display: inline-block; width: 6px; height: 6px; margin: 0 8px 2px 0; border-radius: 2px; background: var(--seal); vertical-align: middle; }
+.scenes span { font-size: 14px; line-height: 1.75; color: var(--ink-body); }

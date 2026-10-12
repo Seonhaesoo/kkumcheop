@@ -11,6 +11,7 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import { DREAMS, CATS } from '../data/dreams/index.mjs';
 import { coupangBox, hasCoupang } from '../data/coupang.mjs';
+import { DEEP, SYMDEEP, DEEP_DATE } from '../data/deep.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'dist');
@@ -87,7 +88,8 @@ const SEARCH = `<form class="search" id="search" role="search" autocomplete="off
 
 /* 2026-10-08 구글 스팸 업데이트 대응 — 상황 페이지(/d/상징/상황/)는 구글에만 검색 제외(googlebot noindex, follow), 네이버·빙은 그대로.
  * 구글 노출이 있던 상황 페이지만 남긴다(서치콘솔 9/1~10/8). 상징·분류·모음 페이지는 모두 남김. 구글용 sitemap.xml 에서 빼고 전체는 sitemap-all.xml */
-const G_KEEP = new Set(['/d/rain/gentle/', '/d/rain/soaked/', '/d/rain/umbrella/', '/d/rain/storm/']);
+/* 2026-10-13 보강 풀이(data/deep.mjs)를 넣은 상황 페이지는 내용이 충분해 구글에도 다시 연다 */
+const G_KEEP = new Set(['/d/rain/gentle/', '/d/rain/soaked/', '/d/rain/umbrella/', '/d/rain/storm/', ...Object.keys(DEEP).map((k) => `/d/${k}/`)]);
 const gNo = (url) => /^\/d\/[^/]+\/[^/]+\/$/.test(url || '') && !G_KEEP.has(url);
 function shell(o) {
   const ld = o.jsonld ? `<script type="application/ld+json">${JSON.stringify(o.jsonld)}</script>` : '';
@@ -142,8 +144,11 @@ ${o.body}
 </html>
 `;
 }
+/* 보강한 페이지만 고친 날을 새로 — 사이트맵 lastmod·Article dateModified */
+const DEEP_URLS = new Set([...Object.keys(DEEP), ...Object.keys(SYMDEEP)].map((k) => `/d/${k}/`));
+const modOf = (u) => (DEEP_URLS.has(u) ? DEEP_DATE : CONTENT_DATE);
 const crumbs = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, item: SITE + it.url })) });
-const article = (title, desc, url) => ({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description: desc, datePublished: FIRST_PUBLISHED, dateModified: CONTENT_DATE, inLanguage: 'ko', author: { '@type': 'Organization', name: '꿈첩' }, publisher: { '@type': 'Organization', name: '꿈첩' }, mainEntityOfPage: SITE + url });
+const article = (title, desc, url) => ({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description: desc, datePublished: FIRST_PUBLISHED, dateModified: modOf(url), inLanguage: 'ko', author: { '@type': 'Organization', name: '꿈첩' }, publisher: { '@type': 'Organization', name: '꿈첩' }, mainEntityOfPage: SITE + url });
 
 const urls = [];
 function write(url, html) {
@@ -157,6 +162,17 @@ const relatedGrid = (s) => {
   const cat = DREAMS.filter((x) => x.cat === s.cat && x !== s && !rel.includes(x)).slice(0, Math.max(0, 8 - rel.length));
   return `<div class="grid">${rel.concat(cat).map((x) => `<a href="${sUrl(x)}"><b>${esc(x.name)}</b><small>${x.variants.length}가지</small></a>`).join('')}</div>`;
 };
+const similar = (s, v) => {
+  const rel = (s.related || []).map((r) => bySlug[r]).filter(Boolean);
+  const out = [];
+  for (let round = 0; round < 3 && out.length < 4; round++) for (const x of rel) {
+    if (out.length >= 4) break;
+    const cand = x.variants.filter((y) => y.luck === v.luck).concat(x.variants.filter((y) => y.luck !== v.luck));
+    if (cand[round]) out.push([x, cand[round]]);
+  }
+  return out;
+};
+const vItem = (x, y) => `<li><a href="${vUrl(x, y)}">${esc(y.title)}</a> ${badge(y.luck)}<p>${esc(y.summary)}</p></li>`;
 const counts = (s) => ({ good: s.variants.filter((v) => v.luck === 'good').length, bad: s.variants.filter((v) => v.luck === 'bad').length, mixed: s.variants.filter((v) => v.luck === 'mixed').length });
 
 /* ---------- 상징 페이지 ---------- */
@@ -177,6 +193,7 @@ function symbolPage(s) {
 ${list}
 </ul>
 </section>
+${SYMDEEP[s.slug] ? `<section><h2>${esc(SYMDEEP[s.slug].h2)}</h2><ul class="scenes">${SYMDEEP[s.slug].rows.map(([k, t]) => `<li><b>${esc(k)}</b><span>${esc(t)}</span></li>`).join('')}</ul></section>` : ''}
 
 <section>
 <h2>${esc(s.name)} 꿈이 뜻하는 것</h2>
@@ -217,6 +234,7 @@ function variantPage(s, v, i) {
   const desc = `${v.title}은 ${LUCK[v.luck]}${v.luck === 'mixed' ? '(상황에 따라 다름)' : ''}으로 봅니다. ${v.summary}`;
   const sib = s.variants.filter((x) => x !== v).map((x) => `<li><a href="${vUrl(s, x)}">${esc(x.title)}</a> ${badge(x.luck)}<p>${esc(x.summary)}</p></li>`).join('\n');
   const pv = s.variants[i - 1], nx = s.variants[i + 1];
+  const dp = DEEP[`${s.slug}/${v.slug}`], sim = similar(s, v);
   const body = `
 <div class="overline">꿈첩 · <a href="${cUrl(c)}">${c.name}</a> · <a href="${sUrl(s)}">${esc(q(s))}</a></div>
 <h1>${esc(v.title)}</h1>
@@ -227,18 +245,40 @@ function variantPage(s, v, i) {
 ${paras(v.body)}
 <p class="callout"><strong>이렇게 해보세요.</strong> ${esc(v.advice)}</p>
 </section>
-
+${dp ? `
 <section>
-<h2>오늘 꾼 꿈이라면</h2>
-${todayBox()}
+<h2>꿈속 장면에 따라 달라지는 풀이</h2>
+<ul class="scenes">${dp.scenes.map(([k, t]) => `<li><b>${esc(k)}</b><span>${esc(t)}</span></li>`).join('')}</ul>
 </section>
 
+<section>
+<h2>이럴 때 자주 꿉니다</h2>
+${paras(dp.when)}
+</section>
+
+<section>
+<h2>자주 묻는 질문</h2>
+${dp.faq.map(([fq, fa]) => `<h3>${esc(fq)}</h3>\n<p>${esc(fa)}</p>`).join('\n')}
+</section>
+` : ''}
 <section>
 <h2>다른 ${esc(s.name)} 꿈</h2>
 <ul class="vl">
 ${sib}
 </ul>
 <p class="note"><a href="${sUrl(s)}">${esc(q(s))} 전체 풀이와 태몽 보기</a></p>
+</section>
+${sim.length ? `
+<section>
+<h2>비슷한 꿈</h2>
+<ul class="vl">
+${sim.map(([x, y]) => vItem(x, y)).join('\n')}
+</ul>
+</section>
+` : ''}
+<section>
+<h2>오늘 꾼 꿈이라면</h2>
+${todayBox()}
 </section>
 
 <section>
@@ -388,7 +428,7 @@ function indexJson() {
   fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify(items));
 }
 function sitemap() {
-  const sm = (list) => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${list.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${u === '/' ? BUILD_ISO : CONTENT_DATE}</lastmod></url>`).join('\n')}\n</urlset>\n`;
+  const sm = (list) => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${list.map((u) => `<url><loc>${SITE}${u}</loc><lastmod>${u === '/' ? BUILD_ISO : modOf(u)}</lastmod></url>`).join('\n')}\n</urlset>\n`;
   fs.writeFileSync(path.join(OUT, 'sitemap.xml'), sm(urls.filter((u) => !gNo(u))));   /* 구글용(robots.txt) */
   fs.writeFileSync(path.join(OUT, 'sitemap-all.xml'), sm(urls));   /* 전체 — 네이버·빙 제출용 */
   fs.writeFileSync(path.join(OUT, 'robots.txt'), `User-agent: *\nAllow: /\nSitemap: ${SITE}/sitemap.xml\n`);
