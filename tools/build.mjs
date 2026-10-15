@@ -45,7 +45,7 @@ const TODAY_LINE = {
   '금': '금(金)의 기운이 도는 날입니다. 자르고 정리하는 상징이 강조되니, 이별·결단·마무리·정리에 관한 장면을 눈여겨보세요.',
   '수': '수(水)의 기운이 도는 날입니다. 흐르고 스며드는 상징이 강조되니, 물·지혜·숨은 감정·소통에 관한 장면이 더 깊게 읽힙니다.'
 };
-const homeToday = () => `<section class="today-a"><span class="ta-wm" aria-hidden="true">${tg.han}</span><p class="hero-over">오늘 꾼 꿈이라면</p><p class="ta-date">${today.m}월 ${today.d}일 ${wd} · ${tg.kor}(${tg.han})일</p><p class="ta-line">${TODAY_LINE[tel]}</p><a class="ta-more" href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이(사주첩) →</a></section>`;
+const homeToday = () => `<section class="today-a"><span class="ta-wm" aria-hidden="true">${tg.han}</span><p class="hero-over">오늘 꾼 꿈이라면</p><p class="ta-date">${today.m}월 ${today.d}일 ${wd} · ${tg.kor}(${tg.han})일</p><p class="ta-line">${TODAY_LINE[tel]}</p><a class="ta-more" href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이(사주첩) →</a><a class="ta-more" href="${SAJU}/2027/ddi/" style="margin-left:14px">2027 띠별 신년운세 →</a></section>`;
 const todayBox = () => `<div class="today">오늘 <b>${today.y}년 ${today.m}월 ${today.d}일 ${wd}</b>은 <b>${tg.kor}(${tg.han})일</b>, ${TODAY_LINE[tel]} <a href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이(사주첩)</a></div>`;
 
 /* ---------- 유틸 ---------- */
