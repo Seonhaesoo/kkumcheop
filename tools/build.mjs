@@ -45,7 +45,7 @@ const TODAY_LINE = {
   '금': '금(金)의 기운이 도는 날입니다. 자르고 정리하는 상징이 강조되니, 이별·결단·마무리·정리에 관한 장면을 눈여겨보세요.',
   '수': '수(水)의 기운이 도는 날입니다. 흐르고 스며드는 상징이 강조되니, 물·지혜·숨은 감정·소통에 관한 장면이 더 깊게 읽힙니다.'
 };
-const homeToday = () => `<section class="today-a"><span class="ta-wm" aria-hidden="true">${tg.han}</span><p class="hero-over">오늘 꾼 꿈이라면</p><p class="ta-date">${today.m}월 ${today.d}일 ${wd} · ${tg.kor}(${tg.han})일</p><p class="ta-line">${TODAY_LINE[tel]}</p><a class="ta-more" href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이(사주첩) →</a><a class="ta-more" href="${SAJU}/2027/ddi/" style="margin-left:14px">2027 띠별 신년운세 →</a></section>`;
+const homeToday = () => `<section class="today-a hg-d" id="today"><p class="ta-h">오늘 꾼 꿈이라면</p><p class="ta-date">${today.m}월 ${today.d}일 ${wd} · ${tg.kor}(${tg.han})일</p><p class="ta-line">${TODAY_LINE[tel]}</p><a class="ta-more" href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이 보기 →</a><a class="ta-more" href="${SAJU}/2027/ddi/">2027 띠별 신년운세 →</a></section>`;
 const todayBox = () => `<div class="today">오늘 <b>${today.y}년 ${today.m}월 ${today.d}일 ${wd}</b>은 <b>${tg.kor}(${tg.han})일</b>, ${TODAY_LINE[tel]} <a href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이(사주첩)</a></div>`;
 
 /* ---------- 유틸 ---------- */
@@ -53,6 +53,26 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const paras = (s) => (Array.isArray(s) ? s : String(s).split(/\n\s*\n/)).map((p) => `<p>${p.trim()}</p>`).join('\n');
 const LUCK = { good: '길몽', bad: '흉몽', mixed: '반반' };
 const badge = (l, big) => `<span class="luck ${l}${big ? ' big' : ''}">${LUCK[l]}</span>`;
+/* 새 디자인(2026-10-16) — 제목 밑 판정 상자, 아이콘(휴대폰 아래 메뉴·첫 화면) */
+const VERDICT = { good: '좋은 꿈', bad: '조심할 꿈', mixed: '장면 따라 달라요' };
+const ICON = {
+  home: '<path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1h-4v-5h-6v5H5a1 1 0 0 1-1-1z"/>',
+  cats: '<rect x="4" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.5"/>',
+  good: '<circle cx="12" cy="12" r="8.5"/><path d="M8 12.3l2.7 2.7L16 9.6"/>',
+  bad: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.8v5"/><path d="M12 16.2h.01"/>',
+  taemong: '<path d="M12 20v-7"/><path d="M12 13c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M12 15c0-3-2.5-5-6-5 0 3 2.5 5 6 5z"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  alert: '<path d="M12 6.5v7"/><path d="M12 17.5h.01"/>',
+  wave: '<path d="M4.5 13c2.5-3.5 5-3.5 7.5 0s5 3.5 7.5 0"/>',
+  chev: '<path d="M9 6l6 6-6 6"/>',
+  menu: '<path d="M4 7h16M4 12h16M4 17h16"/>',
+};
+const ico = (k, size = 24, color = 'currentColor', sw = 2) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+const VD_ICON = { good: 'check', bad: 'alert', mixed: 'wave' };
+const verdict = (v) => `<div class="verdict ${v.luck}"><div class="vd-h"><span class="vd-ic">${ico(VD_ICON[v.luck], 20, '#FFFFFF', 2.6)}</span><b>${VERDICT[v.luck]}</b><span>${LUCK[v.luck]}</span></div><p>${esc(v.summary)}</p></div>`;
+const crumbNav = (items) => `<nav class="overline" aria-label="현재 위치">${items.map(([n, u]) => `<a href="${u}">${esc(n)}</a>`).join(' › ')}</nav>`;
+const faqBox = (qas) => `<div class="faq">${qas.map(([fq, fa]) => `<div class="qa"><h3>${esc(fq)}</h3><p>${fa}</p></div>`).join('')}</div>`;
+const vRow = (x, y) => `<li><a href="${vUrl(x, y)}"><span>${esc(y.title)}</span>${badge(y.luck)}</a></li>`;
 const sUrl = (s) => `/d/${s.slug}/`;
 const vUrl = (s, v) => `/d/${s.slug}/${v.slug}/`;
 const cUrl = (c) => `/c/${c.slug}/`;
@@ -83,8 +103,15 @@ const bySlug = Object.fromEntries(DREAMS.map((s) => [s.slug, s]));
 const GA = `<script async src="https://www.googletagmanager.com/gtag/js?id=G-JCDJSNZX4J"></script>
 <script>if(location.hostname.indexOf('localhost')<0&&location.hostname.indexOf('127.0.0.1')<0&&location.protocol!=='file:'&&!navigator.webdriver&&!/bot|crawl|spider|slurp|yeti|daumoa|bingpreview|headless|lighthouse|scrap|facebookexternalhit|compatible;|mediapartners|adsbot/i.test(navigator.userAgent)){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-JCDJSNZX4J');}</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9924140539322407" crossorigin="anonymous"></script>`;
-const seal = (ch, size) => `<svg width="${size}" height="${size}" viewBox="0 0 30 30" aria-hidden="true"><rect x="1.5" y="1.5" width="27" height="27" rx="6" fill="#B8382D"/><text x="15" y="20.5" text-anchor="middle" font-family="'Noto Serif KR',serif" font-size="15" font-weight="600" fill="#F6F1E8">${ch}</text></svg>`;
-const SEARCH = `<form class="search" id="search" role="search" autocomplete="off"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="#9A8F7E" stroke-width="1.8"/><path d="M16.5 16.5L21 21" stroke="#9A8F7E" stroke-width="1.8" stroke-linecap="round"/></svg><input type="search" name="q" placeholder="꿈에 나온 것을 검색 (뱀, 이빨, 돈, 죽음…)" aria-label="꿈 검색"><div class="res" hidden></div></form>`;
+const seal = (ch, size) => `<svg width="${size}" height="${size}" viewBox="0 0 30 30" aria-hidden="true"><rect x="1" y="1" width="28" height="28" rx="7" fill="#B23A2E"/><text x="15" y="20.5" text-anchor="middle" font-family="'Noto Serif KR',serif" font-size="15" font-weight="700" fill="#FFFFFF">${ch}</text></svg>`;
+/* 검색창 — big: 첫 화면·페이지 아래(찾기 버튼), top: 머리글 안 작은 칸. 자바스크립트가 없으면 /?q= 로 넘어간다 */
+const SEARCH = (kind) => {
+  const big = kind === 'big';
+  return `<form class="search${big ? ' big' : ''}" action="/" role="search" autocomplete="off"><div class="sbox"><svg width="${big ? 22 : 18}" height="${big ? 22 : 18}" viewBox="0 0 24 24" fill="none" stroke="${big ? '#1A1612' : '#5C5348'}" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg><input type="search" name="q" enterkeyhint="search" placeholder="${big ? '예: 뱀, 이빨 빠지는 꿈' : '다른 꿈 찾기'}" aria-label="꿈에 나온 것 검색">${big ? '<button type="submit">찾기</button>' : ''}</div><div class="res" hidden></div></form>`;
+};
+const SECTION_OF = (u) => (u === '/' ? 'home' : /^\/(d|c)\//.test(u || '') ? 'cats' : u === '/gilmong/' ? 'good' : u === '/hyungmong/' ? 'bad' : u === '/taemong/' ? 'taemong' : '');
+const TABS = [['/', 'home', '홈'], ['/d/', 'cats', '분류'], ['/gilmong/', 'good', '길몽'], ['/hyungmong/', 'bad', '흉몽'], ['/taemong/', 'taemong', '태몽']];
+const DNAV = [['/d/', 'cats', '분류별 목록'], ['/gilmong/', 'good', '좋은 꿈'], ['/hyungmong/', 'bad', '조심할 꿈'], ['/taemong/', 'taemong', '태몽']];
 
 /* 2026-10-08 구글 스팸 업데이트 대응 — 상황 페이지(/d/상징/상황/)는 구글에만 검색 제외(googlebot noindex, follow), 네이버·빙은 그대로.
  * 구글 노출이 있던 상황 페이지만 남긴다(서치콘솔 9/1~10/8). 상징·분류·모음 페이지는 모두 남김. 구글용 sitemap.xml 에서 빼고 전체는 sitemap-all.xml */
@@ -118,27 +145,33 @@ ${ld}
 <meta property="og:type" content="article">
 <meta property="og:url" content="${SITE}${o.url}">
 </head>
-<body>
-<div class="app">
-<nav class="family-bar" aria-label="첩 시리즈">
-  <a class="fb-item" href="${SAJU}/" title="사주첩 — 사주풀이"><i aria-hidden="true">四</i>사주첩</a>
-  <a class="fb-item" href="${SAENGIL}/" title="생일첩 — 생년월일로 보는 나이·띠"><i aria-hidden="true">生</i>생일 사전</a>
-  <a class="fb-item on" href="/" aria-current="page"><i aria-hidden="true">夢</i>꿈해몽</a>
-  <a class="fb-item" href="${TAROT}/" title="타로첩 — 타로 카드 78장 의미"><i aria-hidden="true">占</i>타로</a>
-</nav>
-<header class="hdr">
-  <a class="brand" href="/">${seal('夢', 26)}<span class="brand-name">꿈첩</span></a>
-  <nav class="nav"><a href="/d/">전체 목록</a><a href="/c/animal/">동물</a><a href="/c/person/">사람</a><a href="/gilmong/">길몽</a><a href="/taemong/">태몽</a></nav>
-</header>
-${SEARCH}
+<body${o.home ? ' class="home"' : ''}>
+<header class="top"><div class="top-in">
+  <a class="brand" href="/" aria-label="꿈첩 처음으로">${seal('夢', 30)}<span class="brand-name">꿈첩</span></a>
+  <nav class="dnav" aria-label="주 메뉴">${DNAV.map(([u, k, n]) => `<a href="${u}"${SECTION_OF(o.url) === k ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</nav>
+  ${o.home ? '' : SEARCH('top')}
+  <nav class="fam-inline" aria-label="첩 시리즈"><b>첩 시리즈</b><a href="${SAJU}/">사주첩</a><a href="${TAROT}/">타로첩</a><a href="${SAENGIL}/">생일첩</a></nav>
+  <details class="menu"><summary aria-label="메뉴">${ico('menu', 24, '#1A1612', 1.8)}</summary><div class="menu-panel">
+    <p class="mp-h">꿈 찾기</p><a href="/d/">분류별 전체 목록</a><a href="/gilmong/">좋은 꿈 모음 <small>길몽</small></a><a href="/hyungmong/">조심할 꿈 모음 <small>흉몽</small></a><a href="/taemong/">태몽</a>
+    <p class="mp-h">첩 시리즈</p><a href="${SAJU}/"><i class="mi" aria-hidden="true">四</i>사주첩 <small>사주풀이</small></a><a href="${SAENGIL}/"><i class="mi" aria-hidden="true">生</i>생일첩 <small>생일 사전</small></a><a href="${TAROT}/"><i class="mi" aria-hidden="true">占</i>타로첩 <small>타로 카드</small></a>
+  </div></details>
+</div></header>
+<main>
+${o.home ? o.body : `<div class="doc">
 ${o.body}
-<footer class="foot2">
-  <p class="flabel">꿈 찾아보기</p>
-  <nav class="fgrid" aria-label="꿈 찾아보기"><a href="/d/">전체 목록</a><a href="/c/animal/">동물 꿈</a><a href="/c/person/">사람 꿈</a><a href="/gilmong/">길몽 모음</a><a href="/hyungmong/">흉몽 모음</a><a href="/taemong/">태몽</a></nav>
-  <div class="frow2"><nav><a href="/about/">소개</a><a href="/terms/">이용약관</a><a href="/privacy/">개인정보</a></nav><span>© 꿈첩 · <a href="${SAJU}/">사주첩</a> · <a href="https://bodyzip.com/">바디집</a> 자매 사이트</span></div>
-  <p class="fnote">꿈 해몽은 전통 해몽서와 상징 심리학을 바탕으로 한 참고용 콘텐츠입니다. 꿈은 개인의 경험과 감정에 따라 달리 읽히며, 중요한 결정의 근거로 삼지 마세요.</p>
+<div class="again"><b>다른 꿈도 꾸셨나요?</b>${SEARCH('big')}</div>
+</div>`}
+</main>
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="f-about"><div class="f-brand">꿈첩</div><p>꿈 해몽은 전통 해몽서와 상징 심리학을 바탕으로 한 참고용 콘텐츠입니다. 꿈은 개인의 경험과 감정에 따라 달리 읽히며, 중요한 결정의 근거로 삼지 마세요.</p></div>
+    <nav class="f-col" aria-label="꿈 찾아보기"><p class="fh">꿈 찾기</p><a href="/d/">전체 목록</a><a href="/c/animal/">동물 꿈</a><a href="/c/person/">사람 꿈</a><a href="/gilmong/">길몽 모음</a><a href="/hyungmong/">흉몽 모음</a><a href="/taemong/">태몽</a></nav>
+    <nav class="f-col" aria-label="첩 시리즈"><p class="fh">첩 시리즈</p><a href="${SAJU}/">사주첩</a><a href="${SAENGIL}/">생일첩</a><a href="${TAROT}/">타로첩</a><a href="https://bodyzip.com/">바디집</a></nav>
+    <nav class="f-col" aria-label="안내"><p class="fh">안내</p><a href="/about/">소개</a><a href="/terms/">이용약관</a><a href="/privacy/">개인정보</a></nav>
+  </div>
+  <p class="wrap f-copy">© 꿈첩 · <a href="${SAJU}/">사주첩</a> 자매 사이트</p>
 </footer>
-</div>
+<nav class="tabbar" aria-label="아래 메뉴">${TABS.map(([u, k, n]) => `<a href="${u}"${SECTION_OF(o.url) === k ? ' aria-current="page"' : ''}>${ico(k)}${n}</a>`).join('')}</nav>
 <script src="/js/app.js" defer></script>
 </body>
 </html>
@@ -172,7 +205,6 @@ const similar = (s, v) => {
   }
   return out;
 };
-const vItem = (x, y) => `<li><a href="${vUrl(x, y)}">${esc(y.title)}</a> ${badge(y.luck)}<p>${esc(y.summary)}</p></li>`;
 const counts = (s) => ({ good: s.variants.filter((v) => v.luck === 'good').length, bad: s.variants.filter((v) => v.luck === 'bad').length, mixed: s.variants.filter((v) => v.luck === 'mixed').length });
 
 /* ---------- 상징 페이지 ---------- */
@@ -182,7 +214,7 @@ function symbolPage(s) {
   const desc = s.desc || `${q(s)}의 의미를 상황별로 풀이합니다. ${s.variants.slice(0, 4).map((v) => v.title).join(', ')} 등 ${s.variants.length}가지 상황의 길흉과 해석${s.taemong ? ', 태몽 풀이' : ''}까지.`;
   const list = s.variants.map((v) => `<li><a href="${vUrl(s, v)}">${esc(v.title)}</a> ${badge(v.luck)}<p>${esc(v.summary)}</p></li>`).join('\n');
   const body = `
-<div class="overline">꿈첩 · <a href="${cUrl(c)}">${c.name}</a></div>
+${crumbNav([['꿈첩', '/'], [c.name, cUrl(c)]])}
 <h1>${esc(s.h1 || q(s) + ' 해몽')}</h1>
 <p class="lead">${esc(s.lead)}</p>
 <div class="chips"><span>길몽 <b>${n.good}</b></span><span>흉몽 <b>${n.bad}</b></span><span>반반 <b>${n.mixed}</b></span>${s.taemong ? '<span><b>태몽</b>으로도 봄</span>' : ''}<span>${c.name}</span></div>
@@ -216,12 +248,11 @@ ${relatedGrid(s)}
 
 <section>
 <h2>자주 묻는 질문</h2>
-<h3>${esc(q(s))}은 길몽인가요, 흉몽인가요?</h3>
-<p>${esc(s.luckNote)} 위 목록에서 내가 꾼 장면과 가장 가까운 상황을 고르면 됩니다.</p>
-<h3>같은 꿈을 여러 번 꾸면 어떤 뜻인가요?</h3>
-<p>반복되는 꿈은 마음이 아직 정리하지 못한 주제가 있다는 신호로 읽습니다. ${esc(s.name)} 꿈이 거듭 나온다면 ${esc(s.repeat || '그 상징이 가리키는 관계나 상황을 현실에서 한 번 점검해 보세요.')}</p>
-<h3>꿈 해몽은 얼마나 믿을 수 있나요?</h3>
-<p>전통 해몽은 오랜 경험이 쌓인 상징 사전이고, 심리학은 꿈을 무의식의 언어로 봅니다. 둘 다 "정답"이라기보다 자신을 돌아보는 거울로 쓰는 것이 가장 유익합니다.</p>
+${faqBox([
+  [`${q(s)}은 길몽인가요, 흉몽인가요?`, `${esc(s.luckNote)} 위 목록에서 내가 꾼 장면과 가장 가까운 상황을 고르면 됩니다.`],
+  ['같은 꿈을 여러 번 꾸면 어떤 뜻인가요?', `반복되는 꿈은 마음이 아직 정리하지 못한 주제가 있다는 신호로 읽습니다. ${esc(s.name)} 꿈이 거듭 나온다면 ${esc(s.repeat || '그 상징이 가리키는 관계나 상황을 현실에서 한 번 점검해 보세요.')}`],
+  ['꿈 해몽은 얼마나 믿을 수 있나요?', '전통 해몽은 오랜 경험이 쌓인 상징 사전이고, 심리학은 꿈을 무의식의 언어로 봅니다. 둘 다 "정답"이라기보다 자신을 돌아보는 거울로 쓰는 것이 가장 유익합니다.'],
+])}
 </section>
 `;
   write(url, shell({ url, title, desc, body, jsonld: [crumbs([{ name: '꿈첩', url: '/' }, { name: c.name, url: cUrl(c) }, { name: q(s), url }]), article(title, desc, url)] }));
@@ -232,18 +263,18 @@ function variantPage(s, v, i) {
   const url = vUrl(s, v), c = catOf(s);
   const title = `${v.title} — ${LUCK[v.luck]}, ${q(s)} 해몽`;
   const desc = `${v.title}은 ${LUCK[v.luck]}${v.luck === 'mixed' ? '(상황에 따라 다름)' : ''}으로 봅니다. ${v.summary}`;
-  const sib = s.variants.filter((x) => x !== v).map((x) => `<li><a href="${vUrl(s, x)}">${esc(x.title)}</a> ${badge(x.luck)}<p>${esc(x.summary)}</p></li>`).join('\n');
+  const sib = s.variants.filter((x) => x !== v).map((x) => vRow(s, x)).join('\n');
   const pv = s.variants[i - 1], nx = s.variants[i + 1];
   const dp = DEEP[`${s.slug}/${v.slug}`], sim = similar(s, v);
   const body = `
-<div class="overline">꿈첩 · <a href="${cUrl(c)}">${c.name}</a> · <a href="${sUrl(s)}">${esc(q(s))}</a></div>
+${crumbNav([['꿈첩', '/'], [c.name, cUrl(c)], [q(s), sUrl(s)]])}
 <h1>${esc(v.title)}</h1>
-<p class="lead">${badge(v.luck, true)} ${esc(v.summary)}</p>
+${verdict(v)}
 
 <section>
 <h2>이 꿈의 뜻</h2>
 ${paras(v.body)}
-<p class="callout"><strong>이렇게 해보세요.</strong> ${esc(v.advice)}</p>
+<div class="advice"><b>이렇게 해 보세요</b><p>${esc(v.advice)}</p></div>
 </section>
 ${dp ? `
 <section>
@@ -258,21 +289,21 @@ ${paras(dp.when)}
 
 <section>
 <h2>자주 묻는 질문</h2>
-${dp.faq.map(([fq, fa]) => `<h3>${esc(fq)}</h3>\n<p>${esc(fa)}</p>`).join('\n')}
+${faqBox(dp.faq.map(([fq, fa]) => [fq, esc(fa)]))}
 </section>
 ` : ''}
 <section>
 <h2>다른 ${esc(s.name)} 꿈</h2>
-<ul class="vl">
+<ul class="vl rows">
 ${sib}
 </ul>
-<p class="note"><a href="${sUrl(s)}">${esc(q(s))} 전체 풀이와 태몽 보기</a></p>
+<a class="more-btn" href="${sUrl(s)}">${esc(q(s))} ${s.variants.length}가지 한 번에 보기${s.taemong ? ' · 태몽 풀이' : ''}</a>
 </section>
 ${sim.length ? `
 <section>
 <h2>비슷한 꿈</h2>
-<ul class="vl">
-${sim.map(([x, y]) => vItem(x, y)).join('\n')}
+<ul class="vl rows">
+${sim.map(([x, y]) => vRow(x, y)).join('\n')}
 </ul>
 </section>
 ` : ''}
@@ -345,37 +376,56 @@ ${coupangBox()}
 }
 
 function homePage() {
-  const hot = DREAMS.filter((s) => s.hot).concat(DREAMS.filter((s) => !s.hot)).slice(0, 24);
   const total = DREAMS.reduce((a, s) => a + s.variants.length, 0);
+  const all = DREAMS.flatMap((s) => s.variants);
+  const nGood = all.filter((v) => v.luck === 'good').length, nBad = all.filter((v) => v.luck === 'bad').length, nTae = DREAMS.filter((s) => s.taemong).length;
+  /* 많이 찾는 꿈 칩 — 네이버·구글에서 많이 들어오는 상징 */
+  const HOT = ['snake', 'pig', 'poop', 'teeth', 'money', 'death', 'ancestor', 'water', 'ex', 'bug'].map((k) => bySlug[k]).filter(Boolean);
+  const kkum = (n) => (/는$/.test(n) ? n + ' 꿈' : n);
+  const tiles = CATS.map((c) => {
+    const list = DREAMS.filter((s) => s.cat === c.slug);
+    if (!list.length) return '';
+    /* 예시는 많이 찾는 상징부터, 한 줄(12자 안쪽)에 들어가는 만큼 */
+    const ex = [];
+    for (const x of list.filter((s) => s.hot).concat(list.filter((s) => !s.hot))) { if (ex.length >= 3 || (ex.length && ex.concat(x.name).join('·').length > 12)) break; ex.push(x.name); }
+    return `<a href="${cUrl(c)}"><span class="tn">${c.name}<i>${list.length}가지</i></span><small>${esc(ex.slice(0, -1).concat(kkum(ex[ex.length - 1])).join('·'))}</small></a>`;
+  }).join('');
+  /* 요즘 많이 찾는 꿈 — 보강 풀이를 넣은 상황(2026-10-13 네이버 도착 상위 순) */
+  const top = Object.keys(DEEP).slice(0, 8).map((k) => { const [a, b] = k.split('/'); const s = bySlug[a], v = s && s.variants.find((x) => x.slug === b); return v ? `<li><a href="${vUrl(s, v)}"><em>${esc(v.title)}</em>${badge(v.luck)}</a></li>` : ''; }).join('');
+  const chev = ico('chev', 18, '#5C5348');
   const body = `
-<p class="hero-over">상황별 꿈해몽 사전 · 夢帖</p>
-<h1 class="hero-h1">간밤의 꿈을<br>상황으로 읽는 꿈해몽</h1>
-<p class="lead">뱀에게 물린 꿈과 뱀을 잡은 꿈은 뜻이 다릅니다. 꿈에 나온 것을 검색하면 상황별로 <strong>길몽인지 흉몽인지</strong>, 전통 해몽과 심리적 의미, 태몽 풀이까지 한 장에 담아 드립니다. 지금 ${DREAMS.length}가지 상징, ${total}가지 상황이 있고 계속 늘어납니다.</p>
-<section>
-<h2>많이 찾는 꿈</h2>
-<div class="grid">${hot.map((s) => `<a href="${sUrl(s)}"><b>${esc(s.name)}</b><small>${s.variants.length}가지</small></a>`).join('')}</div>
-<p class="more"><a href="/d/">꿈 ${DREAMS.length}가지·상황 ${total}가지 전체 목록 보기 →</a></p>
-</section>
-<section>
-<h2>분류로 찾기</h2>
-<div class="grid g3">${CATS.map((c) => { const n = DREAMS.filter((s) => s.cat === c.slug).length; return n ? `<a href="${cUrl(c)}"><b>${c.name}</b><small>${n}가지</small></a>` : ''; }).join('')}</div>
-</section>
-<section>
-<h2>모음</h2>
-<div class="grid g3"><a href="/gilmong/"><b>길몽 모음</b><small>좋은 꿈</small></a><a href="/hyungmong/"><b>흉몽 모음</b><small>조심할 꿈</small></a><a href="/taemong/"><b>태몽</b><small>아기 꿈</small></a></div>
-</section>
+<section class="hero"><div class="wrap">
+<h1>어젯밤 무슨 꿈을<br> 꾸셨나요?</h1>
+<p class="hero-sub">꿈에 나온 것 하나만 적으면 상황별 풀이가 나와요. ${DREAMS.length}가지 꿈, ${total}가지 상황.</p>
+${SEARCH('big')}
+<h2 class="sec hot-h">많이 찾는 꿈</h2>
+<nav class="hot" aria-label="많이 찾는 꿈">${HOT.map((s) => `<a href="${sUrl(s)}">${esc(kkum(s.name))}</a>`).join('')}</nav>
+</div></section>
+
+<div class="wrap hg">
+<section class="hg-a"><h2 class="sec">좋은 꿈인지부터 볼까요?</h2><div class="pick">
+<a href="/gilmong/"><span class="pi good">${ico('check', 22, '#1F6B45', 2.2)}</span><span class="pt"><b>좋은 꿈 모음</b><small>길몽 · ${nGood}가지</small></span>${chev}</a>
+<a href="/hyungmong/"><span class="pi bad">${ico('alert', 22, '#A3302A', 2.4)}</span><span class="pt"><b>조심할 꿈 모음</b><small>흉몽 · ${nBad}가지</small></span>${chev}</a>
+<a href="/taemong/"><span class="pi mixed">胎</span><span class="pt"><b>태몽</b><small>아기 꿈 · ${nTae}가지</small></span>${chev}</a>
+</div></section>
+<section class="hg-b" id="cats"><div class="sec-row"><h2 class="sec">분류로 찾기</h2><a href="/d/">${DREAMS.length}가지 전체 목록 →</a></div><nav class="cats" aria-label="분류">${tiles}</nav></section>
+<section class="hg-c"><h2 class="sec">요즘 많이 찾는 꿈</h2><ol class="toplist">${top}</ol><p class="legend"><span>${badge('good')} 좋은 꿈</span><span>${badge('bad')} 조심할 꿈</span><span>${badge('mixed')} 장면 따라</span></p></section>
 ${homeToday()}
-<section class="intro">
-<p class="intro-label">꿈첩 이야기</p>
+</div>
+
+<section class="wrap how"><h2 class="sec">꿈첩은 이렇게 써요</h2><ol>
+<li><span class="num">1</span><div><b>꿈에 나온 것 하나</b><p>뱀, 이빨, 돌아가신 할머니처럼 가장 또렷했던 것 하나만 적어요.</p></div></li>
+<li><span class="num">2</span><div><b>상황 고르기</b><p>뱀에게 물렸는지, 뱀을 잡았는지에 따라 뜻이 달라요. 장면마다 풀이가 따로 있어요.</p></div></li>
+<li><span class="num">3</span><div><b>좋은 꿈인지 먼저</b><p>맨 위 색 표시로 길몽·흉몽을 보고, 아래에서 이유와 할 일을 읽어요.</p></div></li>
+</ol></section>
+
+<section class="wrap story">
 <h2>꿈첩이 꿈을 읽는 방식</h2>
-<ol class="steps">
-<li><i aria-hidden="true">一</i><div><b>상징을 상황으로 나눕니다</b><p>같은 뱀이라도 물리는 꿈과 잡는 꿈은 뜻이 다릅니다. 그래서 꿈첩은 상징 하나를 여러 <strong>상황</strong>으로 나누어 풉니다.</p></div></li>
-<li><i aria-hidden="true">二</i><div><b>전통 해몽과 심리 해석을 함께 적습니다</b><p>상황마다 전통 해몽의 길흉과 심리적 의미를 나란히 적습니다. 전통 해몽은 조선의 해몽서와 구전 속설을, 심리 해석은 꿈을 무의식의 언어로 보는 관점을 따릅니다.</p></div></li>
-<li><i aria-hidden="true">三</i><div><b>꿈은 마음을 비추는 거울로 읽습니다</b><p>꿈은 앞날을 맞히는 예언보다 지금 내 마음이 붙들고 있는 것을 보여 주는 거울에 가깝습니다. 흉몽이라고 겁낼 필요는 없고, 길몽이라고 안심만 할 일도 아닙니다. 꿈이 가리키는 관계와 상황을 현실에서 한 번 살펴보는 계기로 삼으면 충분합니다.</p></div></li>
-</ol>
+<p>같은 뱀이라도 물리는 꿈과 잡는 꿈은 뜻이 다릅니다. 그래서 꿈첩은 상징 하나를 여러 <strong>상황</strong>으로 나누어 풉니다. 상황마다 전통 해몽의 길흉과 심리적 의미를 나란히 적습니다. 전통 해몽은 조선의 해몽서와 구전 속설을, 심리 해석은 꿈을 무의식의 언어로 보는 관점을 따릅니다.</p>
+<p>꿈은 앞날을 맞히는 예언보다 지금 내 마음이 붙들고 있는 것을 보여 주는 거울에 가깝습니다. 흉몽이라고 겁낼 필요는 없고, 길몽이라고 안심만 할 일도 아닙니다. 꿈이 가리키는 관계와 상황을 현실에서 한 번 살펴보는 계기로 삼으면 충분합니다.</p>
 </section>
 `;
-  write('/', shell({ url: '/', title: '꿈첩 — 꿈해몽 사전, 상황별 길몽·흉몽·태몽 풀이', desc: `뱀꿈·이빨 빠지는 꿈·똥꿈·죽는 꿈… 꿈에 나온 것을 검색하면 상황별 길흉과 전통 해몽, 심리적 의미, 태몽 풀이까지. ${DREAMS.length}가지 상징 ${total}가지 상황.`, body, jsonld: { '@context': 'https://schema.org', '@type': 'WebSite', name: '꿈첩', url: SITE + '/', potentialAction: { '@type': 'SearchAction', target: SITE + '/?q={search_term_string}', 'query-input': 'required name=search_term_string' } } }));
+  write('/', shell({ home: true, url: '/', title: '꿈첩 — 꿈해몽 사전, 상황별 길몽·흉몽·태몽 풀이', desc: `뱀꿈·이빨 빠지는 꿈·똥꿈·죽는 꿈… 꿈에 나온 것을 검색하면 상황별 길흉과 전통 해몽, 심리적 의미, 태몽 풀이까지. ${DREAMS.length}가지 상징 ${total}가지 상황.`, body, jsonld: { '@context': 'https://schema.org', '@type': 'WebSite', name: '꿈첩', url: SITE + '/', potentialAction: { '@type': 'SearchAction', target: SITE + '/?q={search_term_string}', 'query-input': 'required name=search_term_string' } } }));
 }
 
 /* ---------- /d/ 전체 목록 — 모든 상징과 상황으로 가는 한 장 (구글이 한 번 읽으면 1,150여 주소를 모두 알게) ---------- */
