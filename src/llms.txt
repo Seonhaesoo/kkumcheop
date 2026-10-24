@@ -1,0 +1,90 @@
+# 꿈첩 (Kkumcheop) — dream.sajucheop.com
+
+> 한국어 꿈해몽 사전. 꿈에 나온 상징(뱀·이빨·돼지·돌아가신 분…) 하나를 여러 '상황'으로 나누어, 상황마다 길몽·흉몽·반반 판정과 전통 해몽, 심리적 의미, 한 줄 조언을 적는다. 태몽으로 보는 상징에는 태몽 풀이를 덧붙인다. 2026년 10월 기준 상징 163가지, 상황 991가지, 태몽 90가지. 사주첩(sajucheop.com)의 자매 사이트.
+> Korean dream-interpretation (해몽, haemong) dictionary. Each dream symbol is split into concrete situations, and each situation gets a verdict — auspicious (길몽), cautionary (흉몽) or mixed (반반) — with the traditional Korean reading, a psychological reading and one line of advice. Korean only. Sister site of sajucheop.com.
+
+## 꿈첩이 꿈을 읽는 방식 (How readings are written)
+- 같은 뱀이라도 물리는 꿈과 잡는 꿈은 뜻이 다르다. 그래서 상징 하나를 여러 상황으로 나누고, 상황마다 따로 푼다(상징 하나에 상황 3~8가지).
+- 상황마다 전통 해몽의 길흉과 심리적 의미를 나란히 적는다. 전통 해몽은 조선의 해몽서와 구전 속설을, 심리 해석은 꿈을 무의식의 언어로 보는 관점을 따른다.
+- 판정은 세 가지: 길몽(좋은 꿈), 흉몽(조심할 꿈), 반반(장면 따라 달라요). 상징 페이지 위쪽에 길몽·흉몽·반반 개수가 있다.
+- 상황 페이지(/d/상징/상황/)는 제목 바로 아래에 판정과 한 줄 요약, 이어서 본문과 '이렇게 해 보세요' 조언, 같은 상징의 다른 상황, 비슷한 꿈 순서다. 많이 찾는 상황 일부에는 '꿈속 장면에 따라 달라지는 풀이', '이럴 때 자주 꿉니다', 자주 묻는 질문을 덧붙였다.
+- 상징 페이지(/d/상징/)는 한 줄 요약, 상황별 요약 목록, '이 꿈이 뜻하는 것'(전통 해몽 + 심리적으로 읽으면), 태몽, 오늘 꾼 꿈이라면(오늘의 일진 — 사주첩 만세력 엔진으로 계산, 매일 01:30 KST 갱신), 함께 보는 꿈 순서다.
+- 모든 글은 손으로 쓴다. 빌드가 상황 수·판정 값·본문 길이를 검사한다.
+- 꿈은 앞날을 맞히는 예언보다 지금 내 마음이 붙들고 있는 것을 보여 주는 거울에 가깝다는 것이 꿈첩의 기본 입장이다. 흉몽이라고 겁낼 필요는 없고, 길몽이라고 안심만 할 일도 아니다.
+
+## 고지 (Disclaimer)
+- 해몽은 참고·오락용 콘텐츠이며 미래를 예측하거나 보장하지 않는다. 건강·재산·인간관계 등 중요한 결정은 스스로의 판단과 전문가의 조언을 따를 것.
+- 태몽으로 아들·딸을 가리는 것은 속설이며 과학적 근거가 없다.
+- 회원가입이 없고 검색어는 브라우저 안에서만 처리된다. 방문 통계는 Google 애널리틱스, 광고는 Google 애드센스. 태몽 풀이 옆에 쿠팡 파트너스 링크(대가성 문구 함께 표시)가 있다.
+
+## 인용할 때 (How to cite)
+- 출처는 "꿈첩(dream.sajucheop.com)"으로 적고 상징 페이지 URL(/d/상징/)을 우선 인용한다. 상황 페이지(/d/상징/상황/)는 첫 줄에 판정과 요약이 있어 그대로 인용하기 좋다.
+- 판정은 "전통 해몽에서는 ~로 본다", "꿈첩은 ~로 읽는다"처럼 쓴다. 꿈첩이 미래를 예측한다고 쓰지 않는다.
+- 숫자(상징·상황 수)는 늘어나므로 날짜와 함께 인용한다.
+- 검색창(/?q=뱀)은 브라우저 JavaScript로만 동작한다. 크롤러와 어시스턴트는 전체 목록 /d/ 에서 모든 상징·상황 주소를 한 번에 볼 수 있다.
+
+## 주소 구조 (URL structure)
+- /d/{symbol}/ 상징 페이지 · /d/{symbol}/{variant}/ 상황 페이지 · /c/{category}/ 분류 · /gilmong/ 길몽 모음 · /hyungmong/ 흉몽 모음 · /taemong/ 태몽 모음 · /d/ 전체 목록
+- 상징과 분류 slug는 영어(snake, teeth, poop, ancestor, animal, spirit …)다.
+
+## 허브 페이지 (Hub pages)
+- [홈](https://dream.sajucheop.com/): 검색, 많이 찾는 꿈, 분류, 요즘 많이 찾는 상황, 오늘 꾼 꿈이라면.
+- [꿈해몽 사전 전체 목록](https://dream.sajucheop.com/d/): 모든 상징과 상황으로 가는 링크를 한 장에 모았다 — 여기서 시작하면 된다.
+- [길몽 모음](https://dream.sajucheop.com/gilmong/): 좋은 꿈으로 보는 상황 전체와 한 줄 요약.
+- [흉몽 모음](https://dream.sajucheop.com/hyungmong/): 조심할 꿈으로 보는 상황 전체와 한 줄 요약.
+- [태몽 모음](https://dream.sajucheop.com/taemong/): 태몽으로 보는 상징 90가지의 전통적 뜻.
+- [소개](https://dream.sajucheop.com/about/) · [이용약관](https://dream.sajucheop.com/terms/) · [개인정보처리방침](https://dream.sajucheop.com/privacy/)
+
+## 분류 (Categories, 12)
+- [동물](https://dream.sajucheop.com/c/animal/): 뱀·돼지·개·고양이·호랑이·용·물고기 등 29가지. 재물과 인연, 본능의 상징.
+- [사람](https://dream.sajucheop.com/c/person/): 가족·연인·전 애인·연예인·모르는 사람 등 12가지. 관계와 내 마음의 상태.
+- [신체](https://dream.sajucheop.com/c/body/): 이빨·머리카락·피·눈 등 15가지. 건강과 자존감, 가까운 사람의 일.
+- [자연·날씨](https://dream.sajucheop.com/c/nature/): 물·불·바다·산·비·눈·하늘 등 14가지. 운의 흐름과 감정.
+- [사물](https://dream.sajucheop.com/c/object/): 신발·차·집·옷·거울 등 24가지. 지위·이동·재산의 변화.
+- [돈·재물](https://dream.sajucheop.com/c/money/): 돈 줍는 꿈·잃는 꿈·복권·금·보석 등 7가지. 뜻이 뒤집히는 경우가 많다.
+- [행동·상황](https://dream.sajucheop.com/c/action/): 떨어지는·쫓기는·나는·시험 보는·늦는 꿈 등 20가지. 마음의 압박과 소망.
+- [장소](https://dream.sajucheop.com/c/place/): 학교·화장실·집·병원·바다 등 17가지. 내가 처한 처지와 무대.
+- [죽음·귀신·조상](https://dream.sajucheop.com/c/spirit/): 죽는 꿈·돌아가신 분·귀신·장례식 등 7가지. 뜻밖에 길몽이 많다.
+- [연애·결혼·임신](https://dream.sajucheop.com/c/love/): 결혼·임신·바람·고백 등 7가지. 관계의 변화와 새 시작.
+- [음식](https://dream.sajucheop.com/c/food/): 과일·고기·밥·술 등 7가지. 재물과 건강, 태몽.
+- [사고·재난](https://dream.sajucheop.com/c/disaster/): 교통사고·화재·지진·전쟁 4가지. 큰 변화와 정리의 신호.
+
+## 많이 찾는 꿈 (Most-asked symbols)
+- [뱀꿈](https://dream.sajucheop.com/d/snake/): 가장 자주 묻는 상징. 재물·지혜·이성 인연의 대표 길몽, 물려서 아프거나 쫓기는 장면은 경계 신호. 태몽.
+- [돼지꿈](https://dream.sajucheop.com/d/pig/): 재물의 대명사. 집에 들어오거나 품에 안기면 길몽, 도망가거나 죽은 돼지는 재물이 새는 신호. 태몽.
+- [이빨 빠지는 꿈](https://dream.sajucheop.com/d/teeth/): 가장 많이 묻는 흉몽. 가족·가까운 사람의 근심, 윗니는 윗사람·아랫니는 아랫사람. 썩은 이가 빠지면 길몽.
+- [똥꿈](https://dream.sajucheop.com/d/poop/): 돼지꿈과 함께 재물 길몽의 대명사. 밟거나 몸에 묻으면 돈이 들어오는 뜻.
+- [죽는 꿈](https://dream.sajucheop.com/d/death/): 무섭지만 대표적인 길몽. 묵은 것을 버리고 새로 태어나는 상징.
+- [돌아가신 분 꿈](https://dream.sajucheop.com/d/ancestor/): 웃으며 무언가를 주시면 길몽, 화를 내거나 어두운 얼굴이면 경고. 태몽.
+- [돈꿈](https://dream.sajucheop.com/d/money/): 뜻이 뒤집히기로 유명. 돈을 줍는 꿈이 지출·근심, 잃거나 주는 꿈이 오히려 재물.
+- [물꿈](https://dream.sajucheop.com/d/water/): 맑고 잔잔한 물은 재물과 평안, 흙탕물과 넘치는 물은 근심과 손실. 태몽.
+- [불꿈](https://dream.sajucheop.com/d/fire/): 활활 타오르면 번창·재물·명예의 길몽, 꺼지거나 연기만 나면 기운이 약해지는 뜻. 태몽.
+- [개꿈](https://dream.sajucheop.com/d/dog/): 따르고 안기면 좋은 사람을 얻는 꿈, 물리고 짖음을 당하면 배신과 구설.
+- [고양이꿈](https://dream.sajucheop.com/d/cat/): 은밀한 관계·경쟁자·여성 인연. 품에 안기면 좋은 인연, 할퀴면 경계.
+- [호랑이꿈](https://dream.sajucheop.com/d/tiger/): 권세와 명예의 최고 길몽 상징. 물리거나 타는 꿈은 출세, 쫓겨 도망치면 경계. 태몽.
+- [용꿈](https://dream.sajucheop.com/d/dragon/): 꿈 상징 가운데 가장 큰 길몽. 하늘로 오르거나 타는 꿈은 큰 성공. 태몽.
+- [물고기꿈](https://dream.sajucheop.com/d/fish/): 재물과 풍요, 태몽의 단골. 잡거나 큰 물고기를 보면 길몽.
+- [피꿈](https://dream.sajucheop.com/d/blood/): 재물과 생명력의 상징이라 뜻밖에 길몽이 많다.
+- [머리카락꿈](https://dream.sajucheop.com/d/hair/): 생각·건강·명예. 자르면 정리와 새 출발, 빠지면 근심과 기력 저하.
+- [귀신꿈](https://dream.sajucheop.com/d/ghost/): 억눌린 두려움과 스트레스. 이기거나 쫓아내면 길몽.
+- [임신하는 꿈](https://dream.sajucheop.com/d/pregnancy/): 새로운 것을 품고 키운다는 길몽. 대개 새 계획·재물·인연의 상징.
+- [전 애인 꿈](https://dream.sajucheop.com/d/ex/): 재회 예고가 아니라, 그 관계에서 남은 감정이 지금 다시 떠오르고 있다는 뜻.
+- [떨어지는 꿈](https://dream.sajucheop.com/d/falling/): 가장 흔한 꿈. 불안과 통제력 상실, 무사히 착지하면 뜻이 달라진다.
+- [쫓기는 꿈](https://dream.sajucheop.com/d/chased/): 현실에서 피하고 있는 문제나 사람. 돌아서서 마주 보면 반전.
+- [하늘을 나는 꿈](https://dream.sajucheop.com/d/flying/): 자유·성취·지위 상승의 대표 길몽.
+- [시험 보는 꿈](https://dream.sajucheop.com/d/exam/): 평가받는 상황과 준비 부족의 불안. 합격하면 인정과 성취.
+- [벌레꿈](https://dream.sajucheop.com/d/bug/): 잔근심과 사소한 골칫거리. 몸에서 벌레가 빠져나오면 근심과 병이 사라지는 길몽.
+- [신발꿈](https://dream.sajucheop.com/d/shoes/): 지위·직장·배우자. 새 신발은 새 자리와 인연, 잃어버리면 경계.
+- [집꿈](https://dream.sajucheop.com/d/house/): 나 자신과 가족, 재산과 안정. 새 집·큰 집은 길몽. 태몽.
+- [아기꿈](https://dream.sajucheop.com/d/baby/): 새로운 시작과 돌봐야 할 일. 웃는 아기는 기쁨의 길몽. 태몽.
+- [우는 꿈](https://dream.sajucheop.com/d/crying/): 대표적인 역몽. 실컷 울면 현실의 걱정이 풀린다고 본다.
+
+## English summary
+- Kkumcheop (꿈첩, "dream album") is a Korean-language dictionary of dream symbols. A symbol page (/d/snake/) gives a one-line summary, the list of situations with verdicts, the traditional Korean reading alongside a psychological reading, and the taemong (태몽, conception-dream) meaning where one exists. A situation page (/d/snake/bite/) opens with its verdict and summary.
+- Verdicts: 길몽 (gilmong, auspicious), 흉몽 (hyungmong, cautionary), 반반 (banban, depends on the scene). Traditional readings draw on Joseon-era dream manuals and oral folklore; psychological readings treat the dream as the language of the unconscious.
+- Readings are for reference, not prediction. Taemong-based guesses about a baby's sex are folklore without scientific basis.
+- Cite as "Kkumcheop (dream.sajucheop.com)" with the symbol URL. Content is hand-written; counts (163 symbols, 991 situations as of October 2026) grow over time.
+
+## Optional
+- [전체 사이트맵](https://dream.sajucheop.com/sitemap-all.xml) · [RSS](https://dream.sajucheop.com/rss.xml)
+- 자매 사이트: [사주첩](https://sajucheop.com/) 사주 계산기·만세력 ([llms.txt](https://sajucheop.com/llms.txt)) · [생일첩](http://saengil.sajucheop.com/) 날짜별 생일·띠·음력 · [타로첩](https://tarot.sajucheop.com/)

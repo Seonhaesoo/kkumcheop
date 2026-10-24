@@ -178,7 +178,11 @@ ${o.body}
 }
 /* 보강한 페이지만 고친 날을 새로 — 사이트맵 lastmod·Article dateModified */
 const DEEP_URLS = new Set([...Object.keys(DEEP), ...Object.keys(SYMDEEP)].map((k) => `/d/${k}/`));
-const modOf = (u) => (DEEP_URLS.has(u) ? DEEP_DATE : CONTENT_DATE);
+/* 상징 보강(SYMDEEP)에 date 가 있으면 그 날 — 나중에 보강한 상징만 날짜가 바뀌고, 앞서 보강한 페이지 날짜는 그대로 */
+const modOf = (u) => {
+  const k = u.replace(/^\/d\//, '').replace(/\/$/, '');
+  return (SYMDEEP[k] && SYMDEEP[k].date) || (DEEP_URLS.has(u) ? DEEP_DATE : CONTENT_DATE);
+};
 const crumbs = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, item: SITE + it.url })) });
 const article = (title, desc, url) => ({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description: desc, datePublished: FIRST_PUBLISHED, dateModified: modOf(url), inLanguage: 'ko', author: { '@type': 'Organization', name: '꿈첩' }, publisher: { '@type': 'Organization', name: '꿈첩' }, mainEntityOfPage: SITE + url });
 
