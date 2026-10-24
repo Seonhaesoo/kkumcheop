@@ -46,7 +46,7 @@ const TODAY_LINE = {
   '수': '수(水)의 기운이 도는 날입니다. 흐르고 스며드는 상징이 강조되니, 물·지혜·숨은 감정·소통에 관한 장면이 더 깊게 읽힙니다.'
 };
 const homeToday = () => `<section class="today-a hg-d" id="today"><p class="ta-h">오늘 꾼 꿈이라면</p><p class="ta-date">${today.m}월 ${today.d}일 ${wd} · ${tg.kor}(${tg.han})일</p><p class="ta-line">${TODAY_LINE[tel]}</p><a class="ta-more" href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이 보기 →</a><a class="ta-more" href="${SAJU}/2027/ddi/">2027 띠별 신년운세 →</a></section>`;
-const todayBox = () => `<div class="today">오늘 <b>${today.y}년 ${today.m}월 ${today.d}일 ${wd}</b>은 <b>${tg.kor}(${tg.han})일</b>, ${TODAY_LINE[tel]} <a href="${SAJU}/day/${BUILD_ISO}/">오늘의 일진 풀이(사주첩)</a></div>`;
+const todayBox = () => `<div class="today">오늘 <b>${today.y}년 ${today.m}월 ${today.d}일 ${wd}</b>은 <b>${tg.kor}(${tg.han})일</b>, ${TODAY_LINE[tel]}</div>`;   /* 사주첩 일진 딥링크는 뺐다 — 사이트 전체 상호 링크 줄이기 (2026-10-24 감사) */
 
 /* ---------- 유틸 ---------- */
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -116,7 +116,8 @@ const DNAV = [['/d/', 'cats', '분류별 목록'], ['/gilmong/', 'good', '좋은
 /* 2026-10-08 구글 스팸 업데이트 대응 — 상황 페이지(/d/상징/상황/)는 구글에만 검색 제외(googlebot noindex, follow), 네이버·빙은 그대로.
  * 구글 노출이 있던 상황 페이지만 남긴다(서치콘솔 9/1~10/8). 상징·분류·모음 페이지는 모두 남김. 구글용 sitemap.xml 에서 빼고 전체는 sitemap-all.xml */
 /* 2026-10-13 보강 풀이(data/deep.mjs)를 넣은 상황 페이지는 내용이 충분해 구글에도 다시 연다 */
-const G_KEEP = new Set(['/d/rain/gentle/', '/d/rain/soaked/', '/d/rain/umbrella/', '/d/rain/storm/', ...Object.keys(DEEP).map((k) => `/d/${k}/`)]);
+/* 비(rain) 상황 4장은 보강 풀이(DEEP) 없이 열려 있어 2026-10-24 감사로 다시 구글 제외. DEEP 를 쓰면 저절로 열린다 */
+const G_KEEP = new Set(Object.keys(DEEP).map((k) => `/d/${k}/`));
 const gNo = (url) => /^\/d\/[^/]+\/[^/]+\/$/.test(url || '') && !G_KEEP.has(url);
 function shell(o) {
   const ld = o.jsonld ? `<script type="application/ld+json">${JSON.stringify(o.jsonld)}</script>` : '';
@@ -150,10 +151,8 @@ ${ld}
   <a class="brand" href="/" aria-label="꿈첩 처음으로">${seal('夢', 30)}<span class="brand-name">꿈첩</span></a>
   <nav class="dnav" aria-label="주 메뉴">${DNAV.map(([u, k, n]) => `<a href="${u}"${SECTION_OF(o.url) === k ? ' aria-current="page"' : ''}>${n}</a>`).join('')}</nav>
   ${o.home ? '' : SEARCH('top')}
-  <nav class="fam-inline" aria-label="첩 시리즈"><b>첩 시리즈</b><a href="${SAJU}/">사주첩</a><a href="${TAROT}/">타로첩</a><a href="${SAENGIL}/">생일첩</a></nav>
   <details class="menu"><summary aria-label="메뉴">${ico('menu', 24, '#1A1612', 1.8)}</summary><div class="menu-panel">
     <p class="mp-h">꿈 찾기</p><a href="/d/">분류별 전체 목록</a><a href="/gilmong/">좋은 꿈 모음 <small>길몽</small></a><a href="/hyungmong/">조심할 꿈 모음 <small>흉몽</small></a><a href="/taemong/">태몽</a>
-    <p class="mp-h">첩 시리즈</p><a href="${SAJU}/"><i class="mi" aria-hidden="true">四</i>사주첩 <small>사주풀이</small></a><a href="${SAENGIL}/"><i class="mi" aria-hidden="true">生</i>생일첩 <small>생일 사전</small></a><a href="${TAROT}/"><i class="mi" aria-hidden="true">占</i>타로첩 <small>타로 카드</small></a>
   </div></details>
 </div></header>
 <main>
@@ -166,10 +165,10 @@ ${o.body}
   <div class="wrap foot-in">
     <div class="f-about"><div class="f-brand">꿈첩</div><p>꿈 해몽은 전통 해몽서와 상징 심리학을 바탕으로 한 참고용 콘텐츠입니다. 꿈은 개인의 경험과 감정에 따라 달리 읽히며, 중요한 결정의 근거로 삼지 마세요.</p></div>
     <nav class="f-col" aria-label="꿈 찾아보기"><p class="fh">꿈 찾기</p><a href="/d/">전체 목록</a><a href="/c/animal/">동물 꿈</a><a href="/c/person/">사람 꿈</a><a href="/gilmong/">길몽 모음</a><a href="/hyungmong/">흉몽 모음</a><a href="/taemong/">태몽</a></nav>
-    <nav class="f-col" aria-label="첩 시리즈"><p class="fh">첩 시리즈</p><a href="${SAJU}/">사주첩</a><a href="${SAENGIL}/">생일첩</a><a href="${TAROT}/">타로첩</a><a href="https://bodyzip.com/">바디집</a></nav>
+    <nav class="f-col" aria-label="첩 시리즈"><p class="fh">첩 시리즈</p><a href="${SAJU}/">사주첩</a><a href="${SAENGIL}/">생일첩</a><a href="${TAROT}/">타로첩</a></nav>
     <nav class="f-col" aria-label="안내"><p class="fh">안내</p><a href="/about/">소개</a><a href="/terms/">이용약관</a><a href="/privacy/">개인정보</a></nav>
   </div>
-  <p class="wrap f-copy">© 꿈첩 · <a href="${SAJU}/">사주첩</a> 자매 사이트</p>
+  <p class="wrap f-copy">© 꿈첩</p>
 </footer>
 <nav class="tabbar" aria-label="아래 메뉴">${TABS.map(([u, k, n]) => `<a href="${u}"${SECTION_OF(o.url) === k ? ' aria-current="page"' : ''}>${ico(k)}${n}</a>`).join('')}</nav>
 <script src="/js/app.js" defer></script>
@@ -249,9 +248,8 @@ ${relatedGrid(s)}
 <section>
 <h2>자주 묻는 질문</h2>
 ${faqBox([
-  [`${q(s)}은 길몽인가요, 흉몽인가요?`, `${esc(s.luckNote)} 위 목록에서 내가 꾼 장면과 가장 가까운 상황을 고르면 됩니다.`],
+  /* '길몽인가요'(위 콜아웃 luckNote 반복)·'얼마나 믿을 수 있나요'(163장 같은 문장)는 뺐다 — 2026-10-24 감사 */
   ['같은 꿈을 여러 번 꾸면 어떤 뜻인가요?', `반복되는 꿈은 마음이 아직 정리하지 못한 주제가 있다는 신호로 읽습니다. ${esc(s.name)} 꿈이 거듭 나온다면 ${esc(s.repeat || '그 상징이 가리키는 관계나 상황을 현실에서 한 번 점검해 보세요.')}`],
-  ['꿈 해몽은 얼마나 믿을 수 있나요?', '전통 해몽은 오랜 경험이 쌓인 상징 사전이고, 심리학은 꿈을 무의식의 언어로 봅니다. 둘 다 "정답"이라기보다 자신을 돌아보는 거울로 쓰는 것이 가장 유익합니다.'],
 ])}
 </section>
 `;
@@ -307,10 +305,6 @@ ${sim.map(([x, y]) => vRow(x, y)).join('\n')}
 </ul>
 </section>
 ` : ''}
-<section>
-<h2>오늘 꾼 꿈이라면</h2>
-${todayBox()}
-</section>
 
 <section>
 <h2>함께 보는 꿈</h2>
@@ -359,6 +353,12 @@ ${items.map(({ s, v }) => `<li><a href="${vUrl(s, v)}">${esc(v.title)}</a> <span
   write(url, shell({ url, title: `${name} 모음 — ${kind === 'good' ? '좋은 꿈' : '조심할 꿈'} ${items.length}가지 상황별 해몽`, desc: `${name}으로 보는 꿈 ${items.length}가지. ${items.slice(0, 6).map((x) => x.v.title).join(', ')} 등.`, body, jsonld: crumbs([{ name: '꿈첩', url: '/' }, { name: name + ' 모음', url }]) }));
 }
 
+/* 태몽 모음은 상징 페이지 태몽 문단을 통째로 옮겨 싣지 않고 첫 문장만 보여 주고 링크한다 (2026-10-24 감사: 내부 중복) */
+const firstSentence = (t) => {
+  const s = (Array.isArray(t) ? t[0] : String(t).split(/\n\s*\n/)[0]).trim();
+  const m = s.match(/^.+?[.다요](?=\s|$)/);
+  return m ? m[0] : s;
+};
 function taemongPage() {
   const url = '/taemong/';
   const list = DREAMS.filter((s) => s.taemong);
@@ -367,7 +367,7 @@ function taemongPage() {
 <h1>태몽 해몽 — 태몽으로 보는 꿈 ${list.length}가지</h1>
 <p class="lead">태몽은 임신 전후에 본인이나 가족이 꾸는, 아이의 탄생을 알리는 꿈입니다. 동물·과일·자연물이 크고 선명하게 나오며 꿈에서 깬 뒤에도 또렷이 기억나는 것이 특징입니다. 상징별로 전통적으로 어떤 아이를 뜻한다고 보는지 정리했습니다.</p>
 <section>
-${list.map((s) => `<h2><a href="${sUrl(s)}">${esc(s.name)} 태몽</a></h2>${paras(s.taemong)}`).join('\n')}
+${list.map((s) => `<h2><a href="${sUrl(s)}">${esc(s.name)} 태몽</a></h2><p>${firstSentence(s.taemong)} <a href="${sUrl(s)}">${esc(s.name)} 꿈 풀이 전체</a></p>`).join('\n')}
 </section>
 <p class="callout">태몽으로 아들·딸을 가리는 것은 속설이며 과학적 근거는 없습니다. 출산예정일과 임신 주수는 <a href="https://bodyzip.com/due-date/">바디집</a>에서 계산할 수 있고, 아이가 태어나면 <a href="${SAENGIL}/">생일첩</a>에서 생년월일로 띠·별자리·일주를, <a href="${SAJU}/">사주첩</a>에서 사주를 볼 수 있습니다.</p>
 ${coupangBox()}
@@ -458,14 +458,14 @@ function staticPages() {
 <h3>2. 책임의 한계</h3><p>사이트는 콘텐츠를 이용하다 생긴 어떤 손해에도 책임지지 않습니다.</p>
 <h3>3. 저작권</h3><p>사이트의 글과 디자인은 꿈첩에 저작권이 있습니다. 출처를 밝힌 인용과 링크는 자유롭게 하실 수 있으나, 무단 복제·재배포는 금지합니다.</p>
 <h3>4. 광고</h3><p>사이트는 Google AdSense 광고를 게재하며, 광고 수익으로 운영됩니다.</p>
-<p class="note">시행일: ${BUILD_ISO}</p>`);
+<p class="note">시행일: 2026-09-05</p>`);
   doc('/privacy/', '개인정보처리방침', '꿈첩 개인정보처리방침.', `
 <p>꿈첩은 방문자의 개인정보를 소중히 다룹니다.</p>
 <h3>1. 수집하는 정보</h3><p>사이트는 회원가입을 받지 않으며 이름·연락처 등 개인정보를 직접 수집하지 않습니다. 검색어는 브라우저 안에서만 처리됩니다.</p>
 <h3>2. 쿠키와 제3자 서비스</h3><p>사이트는 방문 통계를 위해 Google Analytics를, 광고 게재를 위해 Google AdSense를 사용합니다.${hasCoupang() ? ' 태몽 풀이의 쿠팡 링크(쿠팡 파트너스)를 누르면 쿠팡으로 이동하며, 그 뒤 구매가 생기면 꿈첩이 일정액의 수수료를 받을 수 있습니다. 이 과정의 쿠키는 쿠팡이 관리합니다.' : ''} Google은 쿠키를 이용해 방문 기록과 관심사에 맞춘 광고를 보여줄 수 있습니다. 맞춤 광고는 <a href="https://www.google.com/settings/ads" rel="noopener">Google 광고 설정</a>에서, 쿠키 사용은 브라우저 설정에서 거부할 수 있습니다. 자세한 내용은 <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">Google 정책 페이지</a>를 참고하세요.</p>
 <h3>3. 정보의 보관과 파기</h3><p>사이트가 직접 보관하는 개인정보는 없습니다.</p>
 <h3>4. 문의</h3><p>개인정보 관련 문의는 <a href="${SAJU}/">사주첩</a>의 연락처로 보내 주세요.</p>
-<p class="note">시행일: ${BUILD_ISO}</p>`);
+<p class="note">시행일: 2026-09-05</p>`);
   fs.writeFileSync(path.join(OUT, '404.html'), shell({ url: '/404', title: '페이지를 찾을 수 없습니다', desc: '꿈첩', body: `<h1>아직 없는 꿈이에요</h1><p class="lead">주소가 잘못되었거나 아직 풀이하지 않은 꿈입니다. 위 검색창에서 비슷한 상징을 찾아보세요.</p><p class="note"><a href="/">홈으로</a></p>` }));
 }
 
