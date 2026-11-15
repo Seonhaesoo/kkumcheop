@@ -10,7 +10,7 @@ import path from 'node:path';
 import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import { DREAMS, CATS } from '../data/dreams/index.mjs';
-import { coupangBox, hasCoupang } from '../data/coupang.mjs';
+import { coupangBox, hasCoupang, dynBanner } from '../data/coupang.mjs';
 import { DEEP, SYMDEEP, DEEP_DATE } from '../data/deep.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -158,6 +158,7 @@ ${ld}
 <main>
 ${o.home ? o.body : `<div class="doc">
 ${o.body}
+${/^\/(about|terms|privacy)\//.test(o.url) || o.noDyn ? '' : dynBanner('dream')}
 <div class="again"><b>다른 꿈도 꾸셨나요?</b>${SEARCH('big')}</div>
 </div>`}
 </main>
