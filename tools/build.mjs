@@ -11,7 +11,7 @@ import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 import { DREAMS, CATS } from '../data/dreams/index.mjs';
 import { coupangBox, hasCoupang, dynBanner } from '../data/coupang.mjs';
-import { DEEP, SYMDEEP, DEEP_DATE } from '../data/deep.mjs';
+import { DEEP, SYMDEEP, SITDEEP, DEEP_DATE } from '../data/deep.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'dist');
@@ -119,7 +119,8 @@ const DNAV = [['/d/', 'cats', '분류별 목록'], ['/gilmong/', 'good', '좋은
  * 구글 노출이 있던 상황 페이지만 남긴다(서치콘솔 9/1~10/8). 상징·분류·모음 페이지는 모두 남김. 구글용 sitemap.xml 에서 빼고 전체는 sitemap-all.xml */
 /* 2026-10-13 보강 풀이(data/deep.mjs)를 넣은 상황 페이지는 내용이 충분해 구글에도 다시 연다 */
 /* 비(rain) 상황 4장은 보강 풀이(DEEP) 없이 열려 있어 2026-10-24 감사로 다시 구글 제외. DEEP 를 쓰면 저절로 열린다 */
-const G_KEEP = new Set(Object.keys(DEEP).map((k) => `/d/${k}/`));
+/* 2026-11-21 상황 보강 2차(SITDEEP)를 넣은 상황 페이지도 같은 기준으로 연다 */
+const G_KEEP = new Set([...Object.keys(DEEP), ...Object.keys(SITDEEP)].map((k) => `/d/${k}/`));
 const gNo = (url) => /^\/d\/[^/]+\/[^/]+\/$/.test(url || '') && !G_KEEP.has(url);
 function shell(o) {
   const ld = o.jsonld ? `<script type="application/ld+json">${JSON.stringify(o.jsonld)}</script>` : '';
@@ -181,10 +182,10 @@ ${/^\/(about|terms|privacy)\//.test(o.url) || /^\/d\/[^/]+\/[^/]+\/$/.test(o.url
 }
 /* 보강한 페이지만 고친 날을 새로 — 사이트맵 lastmod·Article dateModified */
 const DEEP_URLS = new Set([...Object.keys(DEEP), ...Object.keys(SYMDEEP)].map((k) => `/d/${k}/`));
-/* 상징 보강(SYMDEEP)에 date 가 있으면 그 날 — 나중에 보강한 상징만 날짜가 바뀌고, 앞서 보강한 페이지 날짜는 그대로 */
+/* 상징 보강(SYMDEEP)·상황 보강 2차(SITDEEP)에 date 가 있으면 그 날 — 나중에 보강한 페이지만 날짜가 바뀌고, 앞서 보강한 페이지 날짜는 그대로 */
 const modOf = (u) => {
   const k = u.replace(/^\/d\//, '').replace(/\/$/, '');
-  return (SYMDEEP[k] && SYMDEEP[k].date) || (DEEP_URLS.has(u) ? DEEP_DATE : CONTENT_DATE);
+  return (SYMDEEP[k] && SYMDEEP[k].date) || (SITDEEP[k] && SITDEEP[k].date) || (DEEP_URLS.has(u) ? DEEP_DATE : CONTENT_DATE);
 };
 const crumbs = (items) => ({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: items.map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, item: SITE + it.url })) });
 const article = (title, desc, url) => ({ '@context': 'https://schema.org', '@type': 'Article', headline: title, description: desc, datePublished: FIRST_PUBLISHED, dateModified: modOf(url), inLanguage: 'ko', author: { '@type': 'Organization', name: '꿈첩' }, publisher: { '@type': 'Organization', name: '꿈첩' }, mainEntityOfPage: SITE + url });
@@ -270,7 +271,10 @@ function variantPage(s, v, i) {
   const desc = `${v.title}은 ${LUCK[v.luck]}${v.luck === 'mixed' ? '(상황에 따라 다름)' : ''}으로 봅니다. ${v.summary}`;
   const sib = s.variants.filter((x) => x !== v).map((x) => vRow(s, x)).join('\n');
   const pv = s.variants[i - 1], nx = s.variants[i + 1];
-  const dp = DEEP[`${s.slug}/${v.slug}`], sim = similar(s, v);
+  const dp = DEEP[`${s.slug}/${v.slug}`], sd = SITDEEP[`${s.slug}/${v.slug}`], sim = similar(s, v);
+  /* 앞선 보강(DEEP)이 있으면 그 장면·질문 뒤에 2차 보강(SITDEEP)을 이어 붙인다 */
+  const scenes = [...((dp && dp.scenes) || []), ...((sd && sd.scenes) || [])];
+  const faqs = [...((dp && dp.faq) || []), ...((sd && sd.faq) || [])];
   const body = `
 ${crumbNav([['꿈첩', '/'], [c.name, cUrl(c)], [q(s), sUrl(s)]])}
 <h1>${esc(v.title)}</h1>
@@ -281,20 +285,25 @@ ${verdict(v)}
 ${paras(v.body)}
 <div class="advice"><b>이렇게 해 보세요</b><p>${esc(v.advice)}</p></div>
 </section>
-${dp ? `
+${scenes.length ? `
 <section>
 <h2>꿈속 장면에 따라 달라지는 풀이</h2>
-<ul class="scenes">${dp.scenes.map(([k, t]) => `<li><b>${esc(k)}</b><span>${esc(t)}</span></li>`).join('')}</ul>
+<ul class="scenes">${scenes.map(([k, t]) => `<li><b>${esc(k)}</b><span>${esc(t)}</span></li>`).join('')}</ul>
 </section>
-
+` : ''}${dp && dp.when ? `
 <section>
 <h2>이럴 때 자주 꿉니다</h2>
 ${paras(dp.when)}
 </section>
-
+` : ''}${sd && sd.after ? `
+<section>
+<h2>꿈을 꾼 뒤 이렇게 보세요</h2>
+${paras(sd.after.split(/\n\s*\n/).map(esc))}
+</section>
+` : ''}${faqs.length ? `
 <section>
 <h2>자주 묻는 질문</h2>
-${faqBox(dp.faq.map(([fq, fa]) => [fq, esc(fa)]))}
+${faqBox(faqs.map(([fq, fa]) => [fq, esc(fa)]))}
 </section>
 ` : ''}
 <section>
