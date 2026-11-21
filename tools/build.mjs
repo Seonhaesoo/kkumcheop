@@ -73,6 +73,8 @@ const verdict = (v) => `<div class="verdict ${v.luck}"><div class="vd-h"><span c
 const crumbNav = (items) => `<nav class="overline" aria-label="현재 위치">${items.map(([n, u]) => `<a href="${u}">${esc(n)}</a>`).join(' › ')}</nav>`;
 const faqBox = (qas) => `<div class="faq">${qas.map(([fq, fa]) => `<div class="qa"><h3>${esc(fq)}</h3><p>${fa}</p></div>`).join('')}</div>`;
 const vRow = (x, y) => `<li><a href="${vUrl(x, y)}"><span>${esc(y.title)}</span>${badge(y.luck)}</a></li>`;
+/* 2026-11-21 쿠팡 다이나믹 배너를 상황 페이지(/d/<상징>/<상황>/)에서는 뺐다 — 배너를 넣은 11/16부터 상황 페이지 방문이
+ * 27% 줄어 원인인지 보는 시험. 상징 페이지에는 그대로 둔다. 11/28 무렵 두 쪽을 견줘 보고 되돌리거나 다 뺀다 */
 const sUrl = (s) => `/d/${s.slug}/`;
 const vUrl = (s, v) => `/d/${s.slug}/${v.slug}/`;
 const cUrl = (c) => `/c/${c.slug}/`;
@@ -158,7 +160,7 @@ ${ld}
 <main>
 ${o.home ? o.body : `<div class="doc">
 ${o.body}
-${/^\/(about|terms|privacy)\//.test(o.url) || o.noDyn ? '' : dynBanner('dream')}
+${/^\/(about|terms|privacy)\//.test(o.url) || /^\/d\/[^/]+\/[^/]+\/$/.test(o.url) || o.noDyn ? '' : dynBanner('dream')}
 <div class="again"><b>다른 꿈도 꾸셨나요?</b>${SEARCH('big')}</div>
 </div>`}
 </main>
