@@ -75,7 +75,8 @@ const faqBox = (qas) => `<div class="faq">${qas.map(([fq, fa]) => `<div class="q
 const vRow = (x, y) => `<li><a href="${vUrl(x, y)}"><span>${esc(y.title)}</span>${badge(y.luck)}</a></li>`;
 /* 2026-11-21 쿠팡 다이나믹 배너를 상황 페이지(/d/<상징>/<상황>/)에서는 뺐다 — 배너를 넣은 11/16부터 상황 페이지 방문이
  * 27% 줄어 원인인지 보는 시험. 상징 페이지에는 그대로 둔다. 11/28 무렵 두 쪽을 견줘 보고 되돌리거나 다 뺀다 */
-/* 2026-11-25 상징 페이지는 배너를 '상황별로 보기' 목록 바로 아래(본문 중간)로 옮겼다 — 맨 아래는 휴대폰에서 거의 안 보인다(사용자 요청) */
+/* 2026-11-25 상황 페이지 시험(11/21~)은 사용자 요청으로 끝냄 — 상황 페이지도 '이 꿈의 뜻' 바로 아래(본문 중간)에 한 번.
+ * 상징 페이지는 배너를 '상황별로 보기' 목록 바로 아래(본문 중간)로 옮겼다 — 맨 아래는 휴대폰에서 거의 안 보인다(사용자 요청) */
 const sUrl = (s) => `/d/${s.slug}/`;
 const vUrl = (s, v) => `/d/${s.slug}/${v.slug}/`;
 const cUrl = (c) => `/c/${c.slug}/`;
@@ -287,6 +288,7 @@ ${verdict(v)}
 ${paras(v.body)}
 <div class="advice"><b>이렇게 해 보세요</b><p>${esc(v.advice)}</p></div>
 </section>
+${dynBanner('dream')}
 ${scenes.length ? `
 <section>
 <h2>꿈속 장면에 따라 달라지는 풀이</h2>
