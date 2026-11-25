@@ -307,6 +307,10 @@ body.typing .tabbar { display: none; }
 .cp-t small { font-size: 13px; color: var(--muted); line-height: 1.5; }
 .cp-go { flex: none; padding: 8px 14px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 700; white-space: nowrap; }
 .doc .cp-box .cp-note { margin: 10px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+/* 2026-11-25 첫 화면 배너 — 본문 폭에 맞춰 가운데 */
+.home-cp .cp-box { max-width: 720px; margin: 22px auto 6px; }
+.home-cp .cp-h { margin: 0 0 10px; font-size: 16px; font-weight: 700; color: var(--ink); }
+.home-cp .cp-note { margin: 10px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.6; }
 @media (max-width: 480px) { .cp-item { flex-wrap: wrap; gap: 8px 12px; padding: 12px; } .cp-img { width: 64px; height: 64px; } .cp-t { flex: 1 1 calc(100% - 76px); } .cp-go { margin-left: auto; padding: 7px 12px; font-size: 13px; } .cp-img ~ .cp-go { margin-left: 76px; margin-right: auto; } }
 /* 2026-11-16 쿠팡 다이나믹 배너 — 칸 높이를 미리 잡아 글이 밀리지 않게 */
 .cp-dyn .cp-dyn-slot { min-height: 140px; overflow: hidden; }

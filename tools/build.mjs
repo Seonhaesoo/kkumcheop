@@ -422,7 +422,7 @@ ${SEARCH('big')}
 <h2 class="sec hot-h">많이 찾는 꿈</h2>
 <nav class="hot" aria-label="많이 찾는 꿈">${HOT.map((s) => `<a href="${sUrl(s)}">${esc(kkum(s.name))}</a>`).join('')}</nav>
 </div></section>
-
+<div class="wrap home-cp">${dynBanner('dream')}</div>
 <div class="wrap hg">
 <section class="hg-a"><h2 class="sec">좋은 꿈인지부터 볼까요?</h2><div class="pick">
 <a href="/gilmong/"><span class="pi good">${ico('check', 22, '#1F6B45', 2.2)}</span><span class="pt"><b>좋은 꿈 모음</b><small>길몽 · ${nGood}가지</small></span>${chev}</a>
@@ -433,7 +433,7 @@ ${SEARCH('big')}
 <section class="hg-c"><h2 class="sec">요즘 많이 찾는 꿈</h2><ol class="toplist">${top}</ol><p class="legend"><span>${badge('good')} 좋은 꿈</span><span>${badge('bad')} 조심할 꿈</span><span>${badge('mixed')} 장면 따라</span></p></section>
 ${homeToday()}
 </div>
-
+<div class="wrap home-cp">${dynBanner('dream')}</div>
 <section class="wrap how"><h2 class="sec">꿈첩은 이렇게 써요</h2><ol>
 <li><span class="num">1</span><div><b>꿈에 나온 것 하나</b><p>뱀, 이빨, 돌아가신 할머니처럼 가장 또렷했던 것 하나만 적어요.</p></div></li>
 <li><span class="num">2</span><div><b>상황 고르기</b><p>뱀에게 물렸는지, 뱀을 잡았는지에 따라 뜻이 달라요. 장면마다 풀이가 따로 있어요.</p></div></li>
@@ -445,6 +445,7 @@ ${homeToday()}
 <p>같은 뱀이라도 물리는 꿈과 잡는 꿈은 뜻이 다릅니다. 그래서 꿈첩은 상징 하나를 여러 <strong>상황</strong>으로 나누어 풉니다. 상황마다 전통 해몽의 길흉과 심리적 의미를 나란히 적습니다. 전통 해몽은 조선의 해몽서와 구전 속설을, 심리 해석은 꿈을 무의식의 언어로 보는 관점을 따릅니다.</p>
 <p>꿈은 앞날을 맞히는 예언보다 지금 내 마음이 붙들고 있는 것을 보여 주는 거울에 가깝습니다. 흉몽이라고 겁낼 필요는 없고, 길몽이라고 안심만 할 일도 아닙니다. 꿈이 가리키는 관계와 상황을 현실에서 한 번 살펴보는 계기로 삼으면 충분합니다.</p>
 </section>
+<div class="wrap home-cp">${dynBanner('dream')}</div>
 `;
   write('/', shell({ home: true, url: '/', title: '꿈첩 — 꿈해몽 사전, 상황별 길몽·흉몽·태몽 풀이', desc: `뱀꿈·이빨 빠지는 꿈·똥꿈·죽는 꿈… 꿈에 나온 것을 검색하면 상황별 길흉과 전통 해몽, 심리적 의미, 태몽 풀이까지. ${DREAMS.length}가지 상징 ${total}가지 상황.`, body, jsonld: { '@context': 'https://schema.org', '@type': 'WebSite', name: '꿈첩', url: SITE + '/', potentialAction: { '@type': 'SearchAction', target: SITE + '/?q={search_term_string}', 'query-input': 'required name=search_term_string' } } }));
 }
