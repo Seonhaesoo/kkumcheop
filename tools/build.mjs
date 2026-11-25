@@ -162,7 +162,7 @@ ${ld}
 <main>
 ${o.home ? o.body : `<div class="doc">
 ${o.body}
-${/^\/(about|terms|privacy)\//.test(o.url) || /^\/d\/[^/]+\/([^/]+\/)?$/.test(o.url) || o.noDyn ? '' : dynBanner('dream')}
+${/^\/(about|terms|privacy)\//.test(o.url) || o.noDyn ? '' : dynBanner('dream')}
 <div class="again"><b>다른 꿈도 꾸셨나요?</b>${SEARCH('big')}</div>
 </div>`}
 </main>
@@ -245,6 +245,7 @@ ${s.psych ? `<h3>심리적으로 읽으면</h3>${paras(s.psych)}` : ''}
 
 ${s.taemong ? `<section><h2>${esc(s.name)} 태몽</h2>${paras(s.taemong)}<p class="note">태몽은 아기의 생년월일이 정해진 뒤 <a href="${SAENGIL}/">생일첩</a>에서 띠·별자리·일주와 함께 보면 더 재미있습니다.</p>${coupangBox()}</section>` : ''}
 
+${dynBanner('dream')}
 <section>
 <h2>오늘 꾼 꿈이라면</h2>
 ${todayBox()}
@@ -309,6 +310,7 @@ ${paras(sd.after.split(/\n\s*\n/).map(esc))}
 ${faqBox(faqs.map(([fq, fa]) => [fq, esc(fa)]))}
 </section>
 ` : ''}
+${scenes.length || (dp && dp.when) || sd ? dynBanner('dream') : ''}
 <section>
 <h2>다른 ${esc(s.name)} 꿈</h2>
 <ul class="vl rows">
